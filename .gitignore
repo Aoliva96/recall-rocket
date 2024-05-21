@@ -129,5 +129,10 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# production
+/build
+# misc
+.DS_Store
 
+#Keegan's
 hidden/
