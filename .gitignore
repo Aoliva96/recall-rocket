@@ -129,10 +129,18 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# production
+# ===== End of Node Template =====
+
+# Production
 /build
-# misc
+
+# Misc
 .DS_Store
 
-#Keegan's
+# ============ Extras ============
+
+# Keegan's
 hidden/
+
+# Aster's
+requirements/
