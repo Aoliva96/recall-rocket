@@ -1,0 +1,42 @@
+[
+  {
+    "cardQuestion": "What is Node.js?",
+    "cardAnswer": "Node.js is a runtime environment that allows JavaScript to run outside of a web browser, enabling the development of server-side and networking applications"
+  },
+  {
+    "cardQuestion": "How do callback functions relate to Node.js?",
+    "cardAnswer": "Callbacks are functions passed as arguments to other functions, allowing those functions to call back (execute) the passed function once they have completed their task. This is a fundamental aspect of asynchronous programming in Node.js."
+  },
+  {
+    "cardQuestion": "What is a module in Node.js?",
+    "cardAnswer": "A module is a reusable piece of code that can be organized in a single file or across multiple files/folders, providing functionality that can interact with external applications and npm packages by using the require() function."
+  },
+  {
+    "cardQuestion": "What is the purpose of the package.json file?",
+    "cardAnswer": "The package.json file serves as the manifest for a Node.js project, containing metadata about the project such as its name, version, and dependencies. It also facilitates the execution of scripts during development and deployment processes."
+  },
+  {
+    "cardQuestion": "What is the difference between require and import in Node.js?",
+    "cardAnswer": "Require, part of the CommonJS module system, is synchronous and loads the entire module including everything defined in it. Import is from the ES6 module system, it is asynchronous and allows for selective loading of specific exports from a module, improving efficiency and reducing memory usage."
+  },
+  {
+    "cardQuestion": "What is the purpose of the process object in Node.js?",
+    "cardAnswer": "The process object in Node.js is a global object that provides information about, and control over, the current Node.js process. It enables access to details like the Node.js version, platform, and command-line arguments."
+  },
+  {
+    "cardQuestion": "What is the purpose of the fs module in Node.js?",
+    "cardAnswer": "The fs module in Node.js is a built-in module designed to facilitate interaction with the file system, allowing developers to perform a wide range of operations such as reading, writing, updating, deleting, and renaming files and directories."
+  },
+  {
+    "cardQuestion": "What is the purpose of the http module in Node.js?",
+    "cardAnswer": "The http module in Node.js is a built-in module that enables the creation of HTTP servers, which listen to server ports and respond to client requests. It also facilitates the transfer of data over the HTTP protocol, supporting various HTTP methods including HTTP/1.1, HTTP/2, and HTTPS."
+  },
+  {
+    "cardQuestion": "What is the purpose of the path module in Node.js?",
+    "cardAnswer": "The path module in Node.js provides utilities for working with file and directory paths, enabling developers to construct, manipulate, and work with file paths in a cross-platform manner."
+  },
+  {
+    "cardQuestion": "What is the purpose of the events module in Node.js?",
+    "cardAnswer": "The events module in Node.js is designed to facilitate the creation, firing, and listening for custom events within a Node.js application. It provides the EventEmitter class, which allows objects to emit named events that can trigger associated callback functions."
+  }
+]
