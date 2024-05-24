@@ -11,7 +11,7 @@ export default function ErrorPage() {
 			<p>
 				<i>{error.statusText || error.message}</i>
 			</p>
-			{error.status === 404 && (
+			{/* {error.status === 404 && (
 				<div>
 					<img
 						src="../../public/404NotFound.png"
@@ -19,7 +19,7 @@ export default function ErrorPage() {
 						style={{ maxWidth: "100%", height: "auto" }}
 					/>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 }
