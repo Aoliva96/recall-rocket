@@ -1,27 +1,38 @@
 [
   {
+    "username": "Admin Jones",
+    "email": "adminjones@testadmin.com",
+    "password": "AdminPW123",
+    "admin": "true"
+  },
+  {
     "username": "Emily Davis",
     "email": "emilydavis@example.com",
-    "password": "password01"
+    "password": "password01",
+    "admin": "false"
   },
   {
     "username": "Olivia Wilson",
     "email": "oliviawilson@example.com",
-    "password": "password02"
+    "password": "password02",
+    "admin": "false"
   },
   {
     "username": "James Taylor",
     "email": "jamestaylor@example.com",
-    "password": "password03"
+    "password": "password03",
+    "admin": "false"
   },
   {
     "username": "Sophia Martinez",
     "email": "sophiamartinez@example.com",
-    "password": "password04"
+    "password": "password04",
+    "admin": "false"
   },
   {
-    "username": "Daniel Anderson",
-    "email": "danielanderson@example.com",
-    "password": "password05"
+    "username": "Lucas Anderson",
+    "email": "lucasanderson@example.com",
+    "password": "password05",
+    "admin": "false"
   }
 ]
