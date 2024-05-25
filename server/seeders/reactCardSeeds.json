@@ -1,0 +1,52 @@
+[
+  {
+    "question": "What is React.js?",
+    "answer": "React.js is an open-source JavaScript library developed by Facebook. React allows developers to build complex UIs from smaller, reusable components. React optimizes rendering by using a virtual DOM, leading to faster and more efficient updates to the UI.",
+    "concept": "react"
+  },
+  {
+    "question": "What is JSX?",
+    "answer": "JSX, short for JavaScript XML, is a syntax extension for JavaScript that allows you to write HTML-like markup within your JavaScript code. It is primarily used with React to describe what the UI should look like. JSX makes it easier to write and add HTML in React, as it allows you to mix JavaScript and HTML together.",
+    "concept": "react"
+  },
+  {
+    "question": "What is a component in React?",
+    "answer": "A React component is a reusable code module that serves the same purpose as a JavaScript function but works in isolation to return HTML, facilitating the construction of complex user interfaces by breaking them down into smaller, manageable parts",
+    "concept": "react"
+  },
+  {
+    "question": "What is the virtual DOM in React?",
+    "answer": "The virtual DOM is a lightweight copy of the actual DOM that React uses to perform efficient updates and minimize direct manipulation of the real DOM.",
+    "concept": "react"
+  },
+  {
+    "question": "What is state in React?",
+    "answer": "State is a built-in object that stores data or information about a component, enabling it to change over time and trigger re-renders of the component when updated. This state can respond to user actions or system-generated events, influencing the component's behavior and appearance.",
+    "concept": "react"
+  },
+  {
+    "question": "What is a prop in React?",
+    "answer": "A 'prop' (short for properties) is a way to pass data from one component to another, acting similarly to function arguments in JavaScript and attributes in HTML. Props are read-only and allow components to receive and display data, but they cannot be modified by the receiving component.",
+    "concept": "react"
+  },
+  {
+    "question": "What are React hooks?",
+    "answer": "React Hooks are JavaScript functions that let you 'hook into' and manage React state, side effects, and lifecycle features from function components without writing a class component. Hooks make it easier to reuse stateful logic across different React components.",
+    "concept": "react"
+  },
+  {
+    "question": "What is the purpose of the useEffect hook?",
+    "answer": "The useEffect hook in React is designed to handle side effects in functional components, such as data fetching, DOM manipulation, or setting up subscriptions. It executes after every render unless a dependency array is provided to define when the effect should run.",
+    "concept": "react"
+  },
+  {
+    "question": "What is the difference between controlled and uncontrolled components in React?",
+    "answer": "In controlled components form data is handled by React, providing more control and validation over form inputs. In uncontrolled components form data is handled by the DOM itself, which can be useful in cases where you don't need to perform complex form validation or need immediate access to the form data.",
+    "concept": "react"
+  },
+  {
+    "question": "What is the purpose of the React Router library?",
+    "answer": "The React Router library assists in the creation of single-page web applications by managing the URL and state of your application, allowing for navigation between different views or components without reloading the page.",
+    "concept": "react"
+  }
+]

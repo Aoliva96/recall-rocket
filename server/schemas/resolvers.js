@@ -1,24 +1,30 @@
-const { User, Thought } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
+const { User, Card, Favorite } = require("../models");
+const { signToken, AuthenticationError } = require("../utils/auth");
+
+// Util function to allow addFavorite to be used in mutation resolver & seeders/seed.js
+const addFavorite = require("../utils/favorites");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate('thoughts');
+      return User.find().populate("favorites");
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate('thoughts');
+      return User.findOne({ username }).populate("favorites");
     },
-    thoughts: async (parent, { username }) => {
+    favorites: async (parent, { username }) => {
       const params = username ? { username } : {};
-      return Thought.find(params).sort({ createdAt: -1 });
+      return Favorite.aggregate([
+        { $match: params },
+        { $sample: { size: await Favorite.countDocuments(params) } },
+      ]);
     },
-    thought: async (parent, { thoughtId }) => {
-      return Thought.findOne({ _id: thoughtId });
+    favorite: async (parent, { favoriteId }) => {
+      return Favorite.findOne({ _id: favoriteId });
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('thoughts');
+        return User.findOne({ _id: context.user._id }).populate("favorites");
       }
       throw AuthenticationError;
     },
@@ -32,87 +38,76 @@ const resolvers = {
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
-
       if (!user) {
         throw AuthenticationError;
       }
 
       const correctPw = await user.isCorrectPassword(password);
-
       if (!correctPw) {
         throw AuthenticationError;
       }
 
       const token = signToken(user);
-
       return { token, user };
     },
-    addThought: async (parent, { thoughtText }, context) => {
+    addCard: async (parent, args, context) => {
+      if (context.user && context.user.admin) {
+        const card = await Card.create(args);
+        return card;
+      } else {
+        throw new AuthenticationError(
+          "Admin permissions required to perform this action."
+        );
+      }
+    },
+    removeCard: async (parent, { cardId }, context) => {
+      if (context.user && context.user.admin) {
+        const card = await Card.findOneAndDelete({ _id: cardId });
+        return card;
+      } else {
+        throw new AuthenticationError(
+          "Admin permissions required to perform this action."
+        );
+      }
+    },
+    addFavorite: async (parent, { cardId }, context) => {
       if (context.user) {
-        const thought = await Thought.create({
-          thoughtText,
-          thoughtAuthor: context.user.username,
+        return addFavorite(context.user._id, cardId);
+        // If seeding favorites with an exterior util function is causing issues, comment function above and uncomment below
+
+        // const card = await Card.findById(cardId);
+        // const favorite = await Favorite.create({
+        //   card: card._id,
+        //   question: card.question,
+        //   answer: card.answer,
+        //   concept: card.concept,
+        //   user: context.user._id,
+        // });
+
+        // await User.findOneAndUpdate(
+        //   { _id: context.user._id },
+        //   { $addToSet: { favorites: favorite._id } }
+        // );
+
+        // return favorite;
+      }
+      throw new AuthenticationError("Please log in to perform this action.");
+    },
+    removeFavorite: async (parent, { favoriteId }, context) => {
+      if (context.user) {
+        const favorite = await Favorite.findOneAndDelete({
+          _id: favoriteId,
+          user: context.user._id,
         });
 
         await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { thoughts: thought._id } }
+          { $pull: { favorites: favorite._id } }
         );
 
-        return thought;
+        return favorite;
       }
-      throw AuthenticationError;
-      ('You need to be logged in!');
-    },
-    addComment: async (parent, { thoughtId, commentText }, context) => {
-      if (context.user) {
-        return Thought.findOneAndUpdate(
-          { _id: thoughtId },
-          {
-            $addToSet: {
-              comments: { commentText, commentAuthor: context.user.username },
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      }
-      throw AuthenticationError;
-    },
-    removeThought: async (parent, { thoughtId }, context) => {
-      if (context.user) {
-        const thought = await Thought.findOneAndDelete({
-          _id: thoughtId,
-          thoughtAuthor: context.user.username,
-        });
-
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { thoughts: thought._id } }
-        );
-
-        return thought;
-      }
-      throw AuthenticationError;
-    },
-    removeComment: async (parent, { thoughtId, commentId }, context) => {
-      if (context.user) {
-        return Thought.findOneAndUpdate(
-          { _id: thoughtId },
-          {
-            $pull: {
-              comments: {
-                _id: commentId,
-                commentAuthor: context.user.username,
-              },
-            },
-          },
-          { new: true }
-        );
-      }
-      throw AuthenticationError;
+      throw new AuthenticationError("Please log in to perform this action.");
     },
   },
 };
