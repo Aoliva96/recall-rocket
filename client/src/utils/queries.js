@@ -1,71 +1,109 @@
 import { gql } from "@apollo/client";
 
-// export const QUERY_USER = gql`
-//   query user($username: String!) {
-//     user(username: $username) {
-//       _id
-//       username
-//       email
-//       thoughts {
-//         _id
-//         thoughtText
-//         createdAt
-//       }
-//     }
-//   }
-// `;
-
-export const QUERY_THOUGHTS = gql`
-	query getThoughts {
-		thoughts {
-			_id
-			thoughtText
-			thoughtAuthor
-			createdAt
-		}
-	}
-`;
-
-export const QUERY_CARDS = gql`
-	query getThoughts {
-		thoughts {
-			_id
-			thoughtText
-			thoughtAuthor
-			createdAt
-		}
-	}
-`;
-
-export const QUERY_SINGLE_THOUGHT = gql`
-	query getSingleThought($thoughtId: ID!) {
-		thought(thoughtId: $thoughtId) {
-			_id
-			thoughtText
-			thoughtAuthor
-			createdAt
-			comments {
-				_id
-				commentText
-				commentAuthor
-				createdAt
-			}
-		}
-	}
-`;
-
 export const QUERY_ME = gql`
 	query me {
 		me {
 			_id
 			username
 			email
-			thoughts {
+			cards {
 				_id
-				thoughtText
-				thoughtAuthor
-				createdAt
+				question
+				answer
+				concept
+				cardAuthor
+				createdBy {
+					username
+				}
 			}
+			favorites {
+				_id
+				card {
+					_id
+					question
+					answer
+					concept
+					cardAuthor
+				}
+			}
+		}
+	}
+`;
+
+export const QUERY_USER = gql`
+	query user($username: String!) {
+		user(username: $username) {
+			_id
+			username
+			email
+			cards {
+				_id
+				question
+				answer
+				concept
+				cardAuthor
+				createdBy {
+					username
+				}
+			}
+			favorites {
+				_id
+				card {
+					_id
+					question
+					answer
+					concept
+					cardAuthor
+				}
+			}
+		}
+	}
+`;
+
+export const QUERY_CARDS = gql`
+	query GetCards($concept: String!) {
+		cards(concept: $concept) {
+			_id
+			question
+			answer
+			concept
+			cardAuthor
+			createdAt
+		}
+	}
+`;
+
+export const QUERY_SINGLE_CARD = gql`
+	query getCard($id: ID!) {
+		card(id: $id) {
+			_id
+			question
+			answer
+			concept
+			cardAuthor
+		}
+	}
+`;
+export const QUERY_SEED_CARDS = gql`
+	query getSeedCards($concept: String!) {
+		seedCards(concept: $concept) {
+			_id
+			question
+			answer
+			concept
+			cardAuthor
+			createdBy {
+				username
+			}
+		}
+	}
+`;
+
+export const QUERY_CONCEPTS = gql`
+	query GetConcepts {
+		concepts {
+			_id
+			concept
 		}
 	}
 `;
