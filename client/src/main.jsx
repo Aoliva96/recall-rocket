@@ -7,7 +7,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ErrorPage from "./pages/ErrorPage";
-import CardCarousel from "./pages/CardCarousel.jsx";
+import CardCarousel from "./components/CardCarousel/index.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
 				element: <Signup />,
 			},
 			{
-				path: "/profiles/:username",
+				path: "/profiles/:id",
 				element: <Profile />,
 			},
 			{
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 				element: <Profile />,
 			},
 			{
-				path: "/quiz",
+				path: "/quiz/:concept", // Dynamic route for quiz
 				element: <CardCarousel />,
 			},
 		],

@@ -1,26 +1,44 @@
 [
-  {
-    "_id": "1",
-    "question": "Question 1",
-    "answer": "Answer 1",
-    "concept": "Concept 1",
-    "user": "1",
-    "card": "1"
-  },
-  {
-    "_id": "2",
-    "question": "Question 2",
-    "answer": "Answer 2",
-    "concept": "Concept 2",
-    "user": "2",
-    "card": "2"
-  },
-  {
-    "_id": "3",
-    "question": "Question 3",
-    "answer": "Answer 3",
-    "concept": "Concept 3",
-    "user": "3",
-    "card": "3"
-  }
+	{
+		"question": "What is Express.js?",
+		"answer": "Express.js is a minimalist, fast, and flexible web framework for Node.js, designed for building web applications and APIs. It is one of the most popular frameworks for Node.js due to its simplicity, efficiency, and the vast ecosystem it supports.",
+		"concept": "express",
+		"cardAuthor": "seed",
+		"username": "Emily Davis"
+	},
+	{
+		"question": "What is the syntax to delete documents in a collection?",
+		"answer": "Use db.collection.deleteOne(filter) to delete a single document and db.collection.deleteMany(filter) to delete multiple documents.",
+		"concept": "mongo",
+		"cardAuthor": "seed",
+		"username": "Olivia Wilson"
+	},
+	{
+		"question": "How do callback functions relate to Node.js?",
+		"answer": "Callbacks are functions passed as arguments to other functions, allowing those functions to call back (execute) the passed function once they have completed their task. This is a fundamental aspect of asynchronous programming in Node.js.",
+		"concept": "node",
+		"cardAuthor": "seed",
+		"username": "James Taylor"
+	},
+	{
+		"question": "How do callback functions relate to Node.js?",
+		"answer": "Callbacks are functions passed as arguments to other functions, allowing those functions to call back (execute) the passed function once they have completed their task. This is a fundamental aspect of asynchronous programming in Node.js.",
+		"concept": "node",
+		"cardAuthor": "seed",
+		"username": "Sophia Martinez"
+	},
+	{
+		"question": "How do callback functions relate to Node.js?",
+		"answer": "Callbacks are functions passed as arguments to other functions, allowing those functions to call back (execute) the passed function once they have completed their task. This is a fundamental aspect of asynchronous programming in Node.js.",
+		"concept": "node",
+		"cardAuthor": "seed",
+		"username": "Lucas Anderson"
+	},
+	{
+		"question": "How do callback functions relate to Node.js?",
+		"answer": "Callbacks are functions passed as arguments to other functions, allowing those functions to call back (execute) the passed function once they have completed their task. This is a fundamental aspect of asynchronous programming in Node.js.",
+		"concept": "node",
+		"cardAuthor": "seed",
+		"username": "Admin Jones"
+	}
 ]

@@ -1,52 +1,62 @@
 [
-  {
-    "question": "What is MongoDB?",
-    "answer": "MongoDB is a document database that provides high performance, high availability, and easy scalability. It is designed to manage document-oriented information, making it highly effective for storing and retrieving large volumes of data rapidly, and is one of the world's most popular NoSQL database management programs.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is a NoSQL database?",
-    "answer": "A NoSQL database is a type of database that stores and retrieves data without needing to define its structure first. This flexibility allows them to efficiently manage large volumes of unstructured or semi-structured data, making them particularly suited for modern web applications, real-time analytics, and big data processing.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is a collection in MongoDB?",
-    "answer": "In MongoDB, a collection is a group of documents, where each document is a set of key-value pairs. These documents are stored in BSON format, which is a binary representation of JSON-like documents. Collections serve as containers for storing related documents, akin to how tables work in relational databases like MySQL or PostgreSQL.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is a document in MongoDB?",
-    "answer": "In MongoDB, a document is the fundamental unit of data storage. It is structured as a set of field-value pairs, allowing for flexible schemas within a collection. Each document can contain various data types, including nested documents and arrays, providing a rich structure for representing complex data models.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is BSON in MongoDB?",
-    "answer": "MongoDB stores data as BSON documents, a binary representation of JSON documents that supports more data types than JSON, including Double, String, Object, Array, Binary Data, RegEx, Boolean, Date, Null, JavaScript, Timestamp, and ObjectId.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is the command syntax for inserting a document? ",
-    "answer": "Use db.collection.insertOne(document) for a single document and db.collection.insertMany(documents) for multiple documents.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is the syntax to create and drop a collection in MongoDB?",
-    "answer": "Use db.createCollection(name,options) to create a collection and db.collection.drop() to drop a collection.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What are the considerations when creating a schema in MongoDB?",
-    "answer": "Design your schema according to user requirements, combine objects into one document if used together, perform joins during writes, optimize your schema for most frequent use cases, and consider doing complex aggregations in the schema.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is the syntax to update documents in a collection?",
-    "answer": "Use db.collection.updateOne(filter, update, options) to update a single document and db.collection.updateMany(filter, update, options) to update multiple documents.",
-    "concept": "mongo"
-  },
-  {
-    "question": "What is the syntax to delete documents in a collection?",
-    "answer": "Use db.collection.deleteOne(filter) to delete a single document and db.collection.deleteMany(filter) to delete multiple documents.",
-    "concept": "mongo"
-  }
+	{
+		"question": "What is MongoDB?",
+		"answer": "MongoDB is a document database that provides high performance, high availability, and easy scalability. It is designed to manage document-oriented information, making it highly effective for storing and retrieving large volumes of data rapidly, and is one of the world's most popular NoSQL database management programs.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is a NoSQL database?",
+		"answer": "A NoSQL database is a type of database that stores and retrieves data without needing to define its structure first. This flexibility allows them to efficiently manage large volumes of unstructured or semi-structured data, making them particularly suited for modern web applications, real-time analytics, and big data processing.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is a collection in MongoDB?",
+		"answer": "In MongoDB, a collection is a group of documents, where each document is a set of key-value pairs. These documents are stored in BSON format, which is a binary representation of JSON-like documents. Collections serve as containers for storing related documents, akin to how tables work in relational databases like MySQL or PostgreSQL.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is a document in MongoDB?",
+		"answer": "In MongoDB, a document is the fundamental unit of data storage. It is structured as a set of field-value pairs, allowing for flexible schemas within a collection. Each document can contain various data types, including nested documents and arrays, providing a rich structure for representing complex data models.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is BSON in MongoDB?",
+		"answer": "MongoDB stores data as BSON documents, a binary representation of JSON documents that supports more data types than JSON, including Double, String, Object, Array, Binary Data, RegEx, Boolean, Date, Null, JavaScript, Timestamp, and ObjectId.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is the command syntax for inserting a document? ",
+		"answer": "Use db.collection.insertOne(document) for a single document and db.collection.insertMany(documents) for multiple documents.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is the syntax to create and drop a collection in MongoDB?",
+		"answer": "Use db.createCollection(name,options) to create a collection and db.collection.drop() to drop a collection.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What are the considerations when creating a schema in MongoDB?",
+		"answer": "Design your schema according to user requirements, combine objects into one document if used together, perform joins during writes, optimize your schema for most frequent use cases, and consider doing complex aggregations in the schema.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is the syntax to update documents in a collection?",
+		"answer": "Use db.collection.updateOne(filter, update, options) to update a single document and db.collection.updateMany(filter, update, options) to update multiple documents.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	},
+	{
+		"question": "What is the syntax to delete documents in a collection?",
+		"answer": "Use db.collection.deleteOne(filter) to delete a single document and db.collection.deleteMany(filter) to delete multiple documents.",
+		"concept": "mongo",
+		"cardAuthor": "seed"
+	}
 ]
