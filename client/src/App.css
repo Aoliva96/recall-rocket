@@ -1338,7 +1338,7 @@ label form [type="radio"] {
   flex: 0 0 100%;
   max-width: 100%;
 }
- /* .mobile-only{
+/* .mobile-only{
     display: block;
     position: fixed;
     left: 50%;
@@ -1351,13 +1351,12 @@ label form [type="radio"] {
   .nav-btn-home {
     display: none;
   }
-  
 }
 @media screen and (max-width: 640px) {
-  .nav-btn{
+  .nav-btn {
     display: none;
   }
-  .mobile-only{
+  .mobile-only {
     display: block;
     position: fixed;
     left: 60%;
@@ -1365,7 +1364,7 @@ label form [type="radio"] {
     transform: translateX(-50%);
     z-index: 1000;
   }
-  .mobile-only2{
+  .mobile-only2 {
     display: block;
     position: fixed;
     left: 30%;
@@ -1745,9 +1744,12 @@ label form [type="radio"] {
   .align-content-center-xl {
     align-content: center;
   }
-  .nav-btns{
+  .nav-btns {
     display: flex;
     justify-content: end;
   }
-
+  .nav-btn {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+  }
 }

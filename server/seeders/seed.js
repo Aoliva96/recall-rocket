@@ -12,77 +12,83 @@ const favoriteSeeds = require("./favoriteSeeds.json");
 const addFavorite = require("../utils/favorites");
 
 db.once("open", async () => {
-	try {
-		await cleanDB("Favorite", "favorites");
-		await cleanDB("Card", "cards");
-		await cleanDB("User", "users");
+  try {
+    await cleanDB("Favorite", "favorites");
+    await cleanDB("Card", "cards");
+    await cleanDB("User", "users");
 
-		// Seed users first
-		const users = await User.create(userSeeds);
-		const adminUser = await User.findOne({ admin: true });
+    // Seed users first
+    const users = await User.create(userSeeds);
+    console.log("Users seeded successfully");
 
-		if (!adminUser) {
-			throw new Error("Admin user not found");
-		}
-		const adminUserId = adminUser._id;
+    // Seed admin user
+    const adminUser = await User.findOne({ admin: true });
+    if (!adminUser) {
+      throw new Error("Admin user not found");
+    }
+    const adminUserId = adminUser._id;
+    console.log("Admin user seeded: ", adminUser.username);
 
-		// Map each card seed with the admin user ID for the createdBy field
-		const allCardSeeds = [
-			...mongoCardSeeds,
-			...expressCardSeeds,
-			...reactCardSeeds,
-			...nodeCardSeeds,
-		].map((card) => ({
-			...card,
-			createdBy: adminUserId,
-		}));
+    // Map each card seed with the admin user ID for the createdBy field
+    const allCardSeeds = [
+      ...mongoCardSeeds,
+      ...expressCardSeeds,
+      ...reactCardSeeds,
+      ...nodeCardSeeds,
+    ].map((card) => ({
+      ...card,
+      createdBy: adminUserId,
+    }));
 
-		// Seed cards
-		const createdCards = await Card.create(allCardSeeds);
+    // Seed cards
+    const createdCards = await Card.create(allCardSeeds);
+    console.log("Cards seeded successfully");
 
-		// Seed favorites
-		const createdFavorites = await Favorite.create(favoriteSeeds);
+    // Seed favorites
+    const createdFavorites = await Favorite.create(favoriteSeeds);
 
-		// Assign favorites to users and cards
-		for (let favoriteSeed of favoriteSeeds) {
-			const { username, concept } = favoriteSeed;
+    // Assign favorites to users and cards
+    for (let favoriteSeed of favoriteSeeds) {
+      const { username, concept } = favoriteSeed;
 
-			// Find the user based on the favoriteSeed's username
-			const user = users.find((u) => u.username === username);
-			if (!user) {
-				throw new Error(`User not found for username: ${username}`);
-			}
+      // Find the user based on the favoriteSeed's username
+      const user = users.find((u) => u.username === username);
+      if (!user) {
+        throw new Error(`User not found for username: ${username}`);
+      }
 
-			// Find the card based on the favoriteSeed's concept
-			const card = createdCards.find((c) => c.concept === concept);
-			if (!card) {
-				throw new Error(`Card not found for concept: ${concept}`);
-			}
+      // Find the card based on the favoriteSeed's concept
+      const card = createdCards.find((c) => c.concept === concept);
+      if (!card) {
+        throw new Error(`Card not found for concept: ${concept}`);
+      }
 
-			// Create a new Favorite instance
-			const newFavorite = await Favorite.create({
-				...favoriteSeed,
-				user: user._id,
-				card: card._id,
-			});
+      // Create a new Favorite instance
+      const newFavorite = await Favorite.create({
+        ...favoriteSeed,
+        user: user._id,
+        card: card._id,
+      });
 
-			// Update user's favorites
-			await User.findByIdAndUpdate(user._id, {
-				$push: { favorites: newFavorite._id },
-			});
+      // Update user's favorites
+      await User.findByIdAndUpdate(user._id, {
+        $push: { favorites: newFavorite._id },
+      });
 
-			// Update card's favorites
-			await Card.findByIdAndUpdate(card._id, {
-				$push: { favorites: newFavorite._id },
-			});
+      // Update card's favorites
+      await Card.findByIdAndUpdate(card._id, {
+        $push: { favorites: newFavorite._id },
+      });
 
-			console.log(`Favorite created for user ${username} and card ${concept}`);
-		}
+      console.log(
+        `Random card from the '${concept}' category saved to favorites for user ${username}`
+      );
+    }
 
-		console.log("All data seeded successfully");
-		process.exit(0);
-	} catch (err) {
-		console.error(err);
-		process.exit(1);
-	}
+    console.log("All data seeded successfully");
+    process.exit(0);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 });
