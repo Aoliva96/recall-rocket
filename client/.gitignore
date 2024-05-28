@@ -23,7 +23,16 @@ dist-ssr
 *.sln
 *.sw?
 
-# Extras
+
+# Misc
+.DS_Store
 package-lock.json
 pnpm-lock.yaml
-yarn.lock
+
+# ============ Extras ============
+
+# Keegan's
+hidden/
+
+# Aster's
+requirements/
