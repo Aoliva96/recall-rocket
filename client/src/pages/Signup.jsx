@@ -40,7 +40,7 @@ const Signup = () => {
       <h4 className="card-header bg-primary text-white p-2 pl-3">Sign Up</h4>
       <div className="card-body m-2">
         {data ? (
-          <p className="align-center justify-center">Success!</p>
+          <h1 className="m-5 p-5">&#10004;</h1>
         ) : (
           <form onSubmit={handleFormSubmit}>
             <input

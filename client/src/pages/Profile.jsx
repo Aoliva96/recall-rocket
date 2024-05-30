@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, Link, useParams } from "react-router-dom";
 import Auth from "../utils/auth";
 import CardStack from "../components/CardStack/index";
 import useDeviceType from "../components/useDeviceType";
@@ -15,7 +15,7 @@ const Profile = () => {
     const token = Auth.getToken();
   }, []);
 
-  // If user is not logged in, display a message
+  // Check if user is logged in
   if (!Auth.loggedIn()) {
     return (
       <div className="flex-row justify-center mb-4">
@@ -24,7 +24,7 @@ const Profile = () => {
     );
   }
 
-  // Fetch user data for the logged-in user
+  // Fetch data for logged-in user
   const { loading, data } = useQuery(QUERY_ME, {
     variables: { username: userParam },
   });
@@ -32,31 +32,61 @@ const Profile = () => {
   const user = data?.me || {};
   console.log("user data:", user);
 
+  // Check if loading
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  // Update user data
+  function updateUserData() {
+    // Update user data here
+    console.log("Update button clicked");
+  }
+
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10 p-5 m-5">
-        <div className="card bg-white">
-          <h2 className="card-header bg-primary text-light p-2">
-            Viewing your profile.
-          </h2>
-          <div className="card-body">
-            <h3>User Information</h3>
-            <p>Username: {user.username}</p>
-            <p>Email: {user.email}</p>
-            <h3>Your Cards</h3>
-            {/* Display user-added cards */}
-            {/* <CardStack cards={user.cards} /> */}
-            <h3>Your Favorites</h3>
-            {/* Display favorite cards */}
-            {/* <CardStack cards={user.favorites} /> */}
+    <div className="col-12 col-lg-10">
+      <div className="card bg-white mt-2">
+        <h4 className="card-header bg-primary text-white p-2 pl-3">
+          Welcome to your profile page, {user.username}!
+        </h4>
+        <div className="card-body mx-2">
+          <div className="display-flex align-center">
+            <h4>User Information</h4>
           </div>
+          <hr className="mb-3" />
+          <p style={{ fontWeight: "bold" }}>Username: {user.username}</p>
+          <p style={{ fontWeight: "bold" }}>Email: {user.email}</p>
+          <button
+            className="btn btn-sm btn-primary text-white mt-1 mb-3 nav-btn"
+            onClick={updateUserData}
+          >
+            Update
+          </button>
+          <h4>Your Cards</h4>
+          <hr className="mb-3" />
+          {!user.cards ? (
+            <p>You haven't created any cards yet.</p>
+          ) : (
+            <p>User cards placeholder</p>
+            /* <CardStack cards={user.cards} /> */
+          )}
+          <Link
+            to="/cards"
+            className="btn btn-sm btn-primary text-white mt-1 mb-3"
+          >
+            Create a new card
+          </Link>
+          <h4>Your Favorites</h4>
+          <hr className="mb-3" />
+          {!user.cards ? (
+            <p>You haven't saved any favorites yet.</p>
+          ) : (
+            <p>User favorites placeholder</p>
+            /* <CardStack cards={user.favorites} /> */
+          )}
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

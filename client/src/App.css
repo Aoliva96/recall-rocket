@@ -191,6 +191,7 @@ button,
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
+  appearance: button;
 }
 
 /**
@@ -282,6 +283,7 @@ textarea {
  */
 [type="search"] {
   -webkit-appearance: textfield;
+  appearance: textfield;
   /* 1 */
   outline-offset: -2px;
   /* 2 */
@@ -989,6 +991,7 @@ a:hover {
   padding: 0.5rem 1.2rem;
   margin: 0;
   text-decoration: none;
+  cursor: pointer;
   font-size: 1rem;
   border-radius: 0.3rem;
   border: 1px solid transparent;
@@ -1074,7 +1077,7 @@ a:hover {
 }
 
 .btn.btn-white:hover {
-  background-color: #c6e2e7;
+  background-color: #dffaff;
 }
 
 .btn.btn-black {
@@ -1146,6 +1149,7 @@ form .form-textarea {
 }
 
 form select {
+  appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
@@ -1776,13 +1780,27 @@ label form [type="radio"] {
 .nav-btns {
   display: flex;
   justify-content: end;
-  align-items: baseline;
-  position: absolute;
+  align-items: end;
+  /* position: absolute;
   bottom: 0px;
   right: 10px;
   z-index: 1000;
-  color: #8ff0ff;
+  color: #8ff0ff; */
 }
-p {
-  user-select: none;
+
+footer {
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 20%;
+  color: orange;
+}
+
+footer a {
+  color: orange;
+  transition: color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+footer a:hover {
+  color: #8dd6f8;
+  text-decoration: none;
 }
