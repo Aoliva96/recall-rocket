@@ -1,103 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
+import { QUERY_ME } from "../utils/queries";
+import { Navigate, useParams } from "react-router-dom";
+import Auth from "../utils/auth";
+import CardStack from "../components/CardStack/index";
 import useDeviceType from "../components/useDeviceType";
 
-import { QUERY_ME, QUERY_USER } from "../utils/queries";
-import Auth from "../utils/auth";
-import ConceptCardStack from "../components/ConceptCardStack/index";
-
 const Profile = () => {
-	const { username: userParam } = useParams();
-	const isMobile = useDeviceType();
-	const [selectedConcept, setSelectedConcept] = useState(null);
+  const { username: userParam } = useParams();
+  const isMobile = useDeviceType();
 
-	const isLoggedInUserProfile =
-		!userParam || Auth.getProfile()?.username === userParam;
+  // Check for token on component mount
+  useEffect(() => {
+    const token = Auth.getToken();
+  }, []);
 
-	// Fetch user data based on whether it's the logged-in user's profile or another user's
-	const { loading, data } = useQuery(
-		isLoggedInUserProfile ? QUERY_ME : QUERY_USER,
-		{
-			variables: { username: userParam },
-		}
-	);
+  // If user is not logged in, display a message
+  if (!Auth.loggedIn()) {
+    return (
+      <div className="flex-row justify-center mb-4">
+        <h4 className="m-5 p-5">You must be logged in to view this page.</h4>
+      </div>
+    );
+  }
 
-	const user = data?.me || data?.user || {};
-	console.log("User Data:", user);
+  // Fetch user data for the logged-in user
+  const { loading, data } = useQuery(QUERY_ME, {
+    variables: { username: userParam },
+  });
 
-	// Check for token on component mount
-	useEffect(() => {
-		const token = Auth.getToken();
-		console.log("Token in Profile Component:", token);
-	}, []);
+  const user = data?.me || {};
+  console.log("user data:", user);
 
-	// If user is logged in and viewing their own profile, redirect to /me
-	if (
-		Auth.loggedIn() &&
-		(!userParam || Auth.getProfile()?.username === userParam)
-	) {
-		return <Navigate to="/me" />;
-	}
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
-	if (!user?.username) {
-		return (
-			<h4>
-				{isMobile
-					? "You need to be logged in to see this. Use the navigation links below to sign up or log in!"
-					: "You need to be logged in to see this. Use the navigation links above to sign up or log in!"}
-			</h4>
-		);
-	}
-
-	const handleConceptClick = (concept) => {
-		setSelectedConcept(concept);
-	};
-
-	return (
-		<div>
-			<div className="flex-row justify-center mb-3">
-				<h2 className="col-12 col-md-10 bg-dark text-light p-3 mb-5">
-					Viewing {userParam ? `${user.username}'s` : "your"} profile.
-				</h2>
-				<div className="col-12 col-md-10 mb-5">
-					<div className="btn-group">
-						<button
-							className="btn btn-primary"
-							onClick={() => handleConceptClick("Mongo")}
-						>
-							Mongo
-						</button>
-						<button
-							className="btn btn-primary"
-							onClick={() => handleConceptClick("Express")}
-						>
-							Express
-						</button>
-						<button
-							className="btn btn-primary"
-							onClick={() => handleConceptClick("Node")}
-						>
-							Node
-						</button>
-						<button
-							className="btn btn-primary"
-							onClick={() => handleConceptClick("React")}
-						>
-							React
-						</button>
-					</div>
-				</div>
-				<div className="col-12 col-md-10 mb-5">
-					{selectedConcept && <ConceptCardStack concept={selectedConcept} />}
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <main className="flex-row justify-center mb-4">
+      <div className="col-12 col-lg-10 p-5 m-5">
+        <div className="card bg-white">
+          <h2 className="card-header bg-primary text-light p-2">
+            Viewing your profile.
+          </h2>
+          <div className="card-body">
+            <h3>User Information</h3>
+            <p>Username: {user.username}</p>
+            <p>Email: {user.email}</p>
+            <h3>Your Cards</h3>
+            {/* Display user-added cards */}
+            {/* <CardStack cards={user.cards} /> */}
+            <h3>Your Favorites</h3>
+            {/* Display favorite cards */}
+            {/* <CardStack cards={user.favorites} /> */}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default Profile;

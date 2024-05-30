@@ -10,39 +10,35 @@ import ErrorPage from "./pages/ErrorPage";
 import CardCarousel from "./components/CardCarousel/index.jsx";
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <App />,
-		errorElement: <ErrorPage />,
-		children: [
-			{
-				index: true,
-				element: <Home />,
-			},
-			{
-				path: "/login",
-				element: <Login />,
-			},
-			{
-				path: "/signup",
-				element: <Signup />,
-			},
-			{
-				path: "/profiles/:id",
-				element: <Profile />,
-			},
-			{
-				path: "/me",
-				element: <Profile />,
-			},
-			{
-				path: "/quiz/:concept", // Dynamic route for quiz
-				element: <CardCarousel />,
-			},
-		],
-	},
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/me",
+        element: <Profile />,
+      },
+      {
+        path: "/quiz/:concept", // Dynamic route for quiz
+        element: <CardCarousel />,
+      },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-	<RouterProvider router={router} />
+  <RouterProvider router={router} />
 );
