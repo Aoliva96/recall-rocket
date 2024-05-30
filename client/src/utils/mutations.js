@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
@@ -7,6 +7,21 @@ export const LOGIN_USER = gql`
       user {
         _id
         username
+        cards {
+          _id
+          question
+          answer
+          concept
+        }
+        favorites {
+          _id
+          card {
+            _id
+            question
+            answer
+            concept
+          }
+        }
       }
     }
   }
@@ -24,32 +39,59 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_THOUGHT = gql`
-  mutation addThought($thoughtText: String!) {
-    addThought(thoughtText: $thoughtText) {
+export const ADD_CARD = gql`
+  mutation addCard($question: String!, $answer: String!, $concept: String!) {
+    addCard(question: $question, answer: $answer, concept: $concept) {
       _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-      comments {
+      question
+      answer
+      concept
+    }
+  }
+`;
+
+export const REMOVE_CARD = gql`
+  mutation removeCard($cardId: ID!) {
+    removeCard(cardId: $cardId) {
+      _id
+      question
+      answer
+      concept
+    }
+  }
+`;
+
+export const ADD_FAVORITE = gql`
+  mutation addFavorite($cardId: ID!) {
+    addFavorite(cardId: $cardId) {
+      _id
+      card {
         _id
-        commentText
+        question
+        answer
+        concept
+      }
+      user {
+        _id
+        username
       }
     }
   }
 `;
 
-export const ADD_COMMENT = gql`
-  mutation addComment($thoughtId: ID!, $commentText: String!) {
-    addComment(thoughtId: $thoughtId, commentText: $commentText) {
+export const REMOVE_FAVORITE = gql`
+  mutation removeFavorite($favoriteId: ID!) {
+    removeFavorite(favoriteId: $favoriteId) {
       _id
-      thoughtText
-      thoughtAuthor
-      createdAt
-      comments {
+      card {
         _id
-        commentText
-        createdAt
+        question
+        answer
+        concept
+      }
+      user {
+        _id
+        username
       }
     }
   }
