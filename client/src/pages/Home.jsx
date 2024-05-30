@@ -39,10 +39,10 @@ const Home = () => {
 					</>
 				) : (
 					<div className="nav-btns">
-						<Link className="nav-btn-home btn m-2 mobile-only" to="/login">
+						<Link className="nav-btn-home btn m-2 mobile-only2" to="/login">
 							Login
 						</Link>
-						<Link className="nav-btn-home btn m-2 mobile-only2" to="/signup">
+						<Link className="nav-btn-home btn m-2 mobile-only" to="/signup">
 							Signup
 						</Link>
 					</div>
