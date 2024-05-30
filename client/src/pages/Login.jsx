@@ -39,11 +39,11 @@ const Login = () => {
   };
 
   return (
-    <div className="card bg-white mt-2">
+    <div className="card bg-white mt-2 w-50">
       <h4 className="card-header bg-primary text-white p-2 pl-3">Login</h4>
       <div className="card-body m-2">
         {data ? (
-          <p className="align-center justify-center">Success!</p>
+          <h1 className="m-5 p-5">&#10004;</h1>
         ) : (
           <form onSubmit={handleFormSubmit}>
             <input
