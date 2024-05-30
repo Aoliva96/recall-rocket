@@ -36,7 +36,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="card bg-white mt-2">
+    <div className="card bg-white mt-2 w-50">
       <h4 className="card-header bg-primary text-white p-2 pl-3">Sign Up</h4>
       <div className="card-body m-2">
         {data ? (

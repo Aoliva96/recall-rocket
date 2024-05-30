@@ -462,6 +462,22 @@ a:hover {
   width: 25%;
 }
 
+.h-100 {
+  height: 100%;
+}
+
+.h-75 {
+  height: 75%;
+}
+
+.h-50 {
+  height: 50%;
+}
+
+.h-25 {
+  height: 25%;
+}
+
 .min-100-vh {
   min-height: 100vh;
 }
@@ -958,6 +974,10 @@ a:hover {
 
 .bg-black {
   background-color: #000000 !important;
+}
+
+.bg-orange {
+  background-color: #ffa500 !important;
 }
 
 .bg-link {
@@ -1786,6 +1806,23 @@ label form [type="radio"] {
   right: 10px;
   z-index: 1000;
   color: #8ff0ff; */
+}
+
+.start-btn {
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-left: 50px solid #fff;
+  transition: color 0.3s ease-in-out, border-left 0.3s ease-in-out;
+}
+
+.start-btn:hover {
+  width: 0;
+  height: 0;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  border-left: 50px solid #8ff0ff;
 }
 
 footer {
