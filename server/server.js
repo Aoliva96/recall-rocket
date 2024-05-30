@@ -8,7 +8,7 @@ require("dotenv").config();
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
 
-const port = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 const server = new ApolloServer({
 	typeDefs,
@@ -39,9 +39,9 @@ const startApolloServer = async () => {
 	}
 
 	db.once("open", () => {
-		app.listen(port, () => {
-			console.log(`🚀 API server running on port ${port}!`);
-			console.log(`Use GraphQL at http://localhost:${port}/graphql`);
+		app.listen(PORT, () => {
+			console.log(`🚀 API server running on port ${PORT}!`);
+			console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
 		});
 	});
 };
