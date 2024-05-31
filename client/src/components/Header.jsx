@@ -22,28 +22,28 @@ const Header = () => {
 				<div className="nav-btns m-0 mb-1">
 					{Auth.loggedIn() ? (
 						<>
-							<Link className="btn btn-md btn-white mr-2 nav-btn" to="/me">
+							<Link className="btn btn-md mobile btn-white mr-2 nav-btn" to="/me">
 								My Profile
 							</Link>
 							<Link
-								className="btn btn-md btn-white mr-2 nav-btn"
+								className="btn btn-md mobile btn-white mr-2 nav-btn"
 								onClick={logout}
 							>
 								Logout
 							</Link>
-							<Link className="btn btn-md btn-white m-0 nav-btn" to="/about">
+							<Link className="btn btn-md mobile btn-white m-0 nav-btn" to="/about">
 								About
 							</Link>
 						</>
 					) : (
 						<>
-							<Link className="btn btn-md btn-white mr-2 nav-btn" to="/login">
+							<Link className="btn btn-md mobile btn-white mr-2 nav-btn" to="/login">
 								Login
 							</Link>
-							<Link className="btn btn-md btn-white mr-2 nav-btn" to="/signup">
+							<Link className="btn btn-md mobile btn-white mr-2 nav-btn" to="/signup">
 								Signup
 							</Link>
-							<Link className="btn btn-md btn-white m-0 nav-btn" to="/about">
+							<Link className="btn btn-md mobile btn-white m-0 nav-btn" to="/about">
 								About
 							</Link>
 						</>

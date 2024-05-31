@@ -12,7 +12,7 @@ const ConceptCardStack = ({ concept }) => {
 
   return (
     <div
-      className="card bg-primary mt-2 mx-2 text-center"
+      className="card-mobile card bg-primary mt-2 mx-2 text-center"
       style={{ height: "200px", width: "23%" }}
     >
       <h4 className="bg-primary text-white mt-3">{cardConcept}</h4>
