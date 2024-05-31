@@ -17,15 +17,6 @@ const Login = () => {
 		});
 	};
 
-<<<<<<< HEAD
-  // submit form
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const { data } = await login({
-        variables: { ...formState },
-      });
-=======
 	// submit form
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
@@ -33,7 +24,6 @@ const Login = () => {
 			const { data } = await login({
 				variables: { ...formState },
 			});
->>>>>>> 28b3e95 (Working on connecting back with front.)
 
 			Auth.login(data.login.token);
 		} catch (e) {
