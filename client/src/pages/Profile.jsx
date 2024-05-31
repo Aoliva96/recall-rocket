@@ -33,11 +33,6 @@ const Profile = () => {
 	// If no user data, return empty object
 	const user = data?.me || {};
 
-	// Check if loading
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
 	const toggleUpdateForm = () => {
 		setShowUpdateForm(!showUpdateForm);
 	};
@@ -74,6 +69,11 @@ const Profile = () => {
 			console.error("Error updating user:", error);
 		}
 	};
+  
+  // Check if loading
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
 	return (
 		<div className="col-12 col-lg-10">
@@ -86,8 +86,8 @@ const Profile = () => {
 						<h4>User Information</h4>
 					</div>
 					<hr className="mb-3" />
-					<p style={{ fontWeight: "bold" }}>Username: {user.username}</p>
-					<p style={{ fontWeight: "bold" }}>Email: {user.email}</p>
+					<p><span style={{ fontWeight: "bold" }}>Username:</span>{" "}{user.username}</p>
+          <p><span style={{ fontWeight: "bold" }}>Email:</span>{" "}{user.email}</p>
 					{!showUpdateForm && (
 						<button
 							className="btn btn-sm btn-primary text-white mt-1 mb-3 nav-btn"

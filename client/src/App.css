@@ -1118,10 +1118,6 @@ a:hover {
   background-color: #31a9e1;
 }
 
-.shadow {
-  box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
-}
-
 .card {
   border-radius: 0.3rem;
   margin-bottom: 1rem;
@@ -1383,7 +1379,6 @@ label form [type="radio"] {
 
 /* hides the mobile buttons */
 @media screen and (min-width: 640px) {
-  
   .nav-btn-home {
     display: none;
   }
@@ -1393,27 +1388,32 @@ label form [type="radio"] {
 }
 /* hides the buttons for desktop */
 @media screen and (max-width: 640px) {
-  .card-mobile{
+  .card-mobile {
     width: 80% !important;
     flex-direction: column;
     left: 50px;
   }
   .nav-btn {
-    background-color: #8ff0ff;
-    color: black;
+    background-color: #2d3e50;
+    color: #fff;
     border: none;
-    padding: 10px;
+    border-radius: 10px;
+    width: 90%;
+    margin: 0.3rem auto;
+    padding: 1rem;
     cursor: pointer;
-    text-decoration: none;
     display: block;
+    transition: background-color 0.2s ease-in-out;
   }
-  .mobile{
+  .nav-btn:hover {
+    color: #fff;
+    background-color: #436284;
+    text-decoration: none;
+  }
+  .mobile {
     display: none;
   }
-  .nav-btn:not(:last-child) {
-    border-bottom: 1px solid #ddd;
-  }
-  
+
   /* adds the buttons to the bottom for mobile */
   .box-bg {
     padding: 29px;
@@ -1816,18 +1816,15 @@ label form [type="radio"] {
     align-content: center;
   }
 }
+
 .nav-header {
   position: relative;
 }
+
 .nav-btns {
   display: flex;
   justify-content: end;
   align-items: end;
-  /* position: absolute;
-  bottom: 0px;
-  right: 10px;
-  z-index: 1000;
-  color: #8ff0ff; */
 }
 
 .start-btn {
@@ -1836,20 +1833,34 @@ label form [type="radio"] {
   border-top: 30px solid transparent;
   border-bottom: 30px solid transparent;
   border-left: 50px solid #fff;
-  transition: color 0.3s ease-in-out, border-left 0.3s ease-in-out;
+  transition: border-left-color 0.3s ease-in-out;
 }
 
-.start-btn:hover {
-  width: 0;
-  height: 0;
-  border-top: 30px solid transparent;
-  border-bottom: 30px solid transparent;
-  border-left: 50px solid #8ff0ff;
+.card-link {
+  outline: 3px solid transparent;
+  color: #fff;
+  background-color: #2d3e50;
+  text-decoration: none;
+  transition: outline 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.card-link:hover {
+  outline: 3px solid #8ff0ff;
+  background-color: #3f5f7f;
+}
+
+.card-link:hover .start-btn {
+  border-left-color: #8ff0ff;
+}
+
+.card-link:hover h4 {
+  color: #8ff0ff;
 }
 
 footer {
   padding-left: 5%;
   padding-right: 5%;
+  padding-bottom: 10vh;
   height: 20%;
   color: orange;
 }
@@ -1863,31 +1874,7 @@ footer a:hover {
   color: #8dd6f8;
   text-decoration: none;
 }
-/* Hide the nav by default on larger screens */
-.expandable-nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #f8f9fa;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  z-index: 1000;
-}
 
-.expand-nav-btn {
-  background-color: #8ff0ff;
-  color: rgb(0, 0, 0);
-  border: none;
-  padding: 10px;
-  width: 100%;
-  cursor: pointer;
-}
-
-.nav-links {
-  display: flex;
-  flex-direction: column;
-}
 .card-main {
   width: 100%;
   display: flex;
@@ -1898,3 +1885,75 @@ footer a:hover {
   margin-right: auto;
 }
 
+/* Mobile-only nav */
+.expandable-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 310px;
+  color: #fff;
+  background-color: #fff;
+  border-top: 1px solid #000;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 1000;
+  transition: max-height 0.3s linear;
+  overflow: hidden;
+  max-height: 60px;
+}
+
+.expandable-nav.expanded {
+  max-height: 310px;
+}
+
+.expand-nav-btn {
+  width: 100%;
+  background-color: #2d3e50;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 5px solid #cb8400;
+  outline: 2px solid #2d3e50;
+}
+
+.nav-title {
+  color: #2d3e50;
+  margin-top: 0.7rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mobile nav icon animation */
+.nav-icon-container {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #fff;
+  margin: 6px 0;
+  transition: 0.5s;
+  transition-delay: 0.5s;
+}
+
+/* Rotate first bar */
+.change .bar1 {
+  transform: translate(0, 11px) rotate(-45deg);
+}
+
+/* Fade out the second bar */
+.change .bar2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.change .bar3 {
+  transform: translate(0, -11px) rotate(45deg);
+}
