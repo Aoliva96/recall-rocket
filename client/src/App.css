@@ -1885,6 +1885,47 @@ footer a:hover {
   margin-right: auto;
 }
 
+/* Update Form */
+.form-container {
+  border: solid 1px #2d3e50;
+  background-color: #d9e5f1;
+  margin: 2rem auto;
+}
+
+.form-fields {
+  width: 100%;
+}
+
+.form-fields h4 {
+  text-align: center;
+  margin: 0.5rem;
+}
+
+.form-fields button {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: #2d3e50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form-fields input,
+.form-fields textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #2d3e50;
+  border-radius: 0.3rem;
+}
+
+.form-fields label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
 /* Mobile-only nav */
 .expandable-nav {
   position: fixed;
