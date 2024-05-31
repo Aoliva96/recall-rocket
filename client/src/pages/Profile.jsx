@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Auth from "../utils/auth";
 import CardStack from "../components/CardStack";
 
 const Profile = () => {
+	const { username: userParam } = useParams();
 	// Check for token on component mount
 	useEffect(() => {
 		const token = Auth.getToken();
@@ -21,9 +22,7 @@ const Profile = () => {
 	}
 
 	// Fetch data for logged-in user
-	const { loading, data } = useQuery(QUERY_ME, {
-		variables: { username: userParam },
-	});
+	const { loading, data } = useQuery(QUERY_ME);
 
 	const user = data?.me || {};
 	console.log("user data:", user);
