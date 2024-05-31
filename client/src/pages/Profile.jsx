@@ -3,10 +3,9 @@ import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
-import CardStack from "../components/CardStack/index";
+import CardStack from "../components/CardStack";
 
 const Profile = () => {
-
 	// Check for token on component mount
 	useEffect(() => {
 		const token = Auth.getToken();
