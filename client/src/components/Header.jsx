@@ -9,7 +9,7 @@ const Header = () => {
 	};
 	return (
 		<header className="bg-primary text-light py-3 flex-row align-center nav-header">
-			<div className="container flex-row justify-space-between-lg mt-5">
+			<div className="container flex-row justify-space-between-lg justify-space-between-md mt-5">
 				<div>
 					<Link to="/">
 						<img src={bannerLogo} alt="RecallRocket banner logo" />

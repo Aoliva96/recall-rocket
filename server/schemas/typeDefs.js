@@ -3,6 +3,7 @@ const typeDefs = `
 		_id: ID!
 		username: String!
 		email: String!
+		admin: Boolean
 		cards: [Card]!
 		favorites: [Favorite]!
 	}
@@ -47,9 +48,14 @@ const typeDefs = `
 
 	type Mutation {
 		addUser(username: String!, email: String!, password: String!): Auth
+		updateUser(username: String, email: String, password: String): Auth
 		login(email: String!, password: String!): Auth
-		addCard(question: String!, answer: String!, concept: String!): Card
-		removeCard(cardId: ID!): Card
+		addAdminCard(question: String!, answer: String!, concept: String!): Card
+		updateAdminCard(cardId: ID!, question: String!, answer: String!, concept: String!): Card
+		removeAdminCard(cardId: ID!): Card
+		addUserCard(question: String!, answer: String!, concept: String!): Card
+		updateUserCard(cardId: ID!, question: String!, answer: String!, concept: String!): Card
+		removeUserCard(cardId: ID!): Card
 		addFavorite(cardId: ID!): Favorite
 		removeFavorite(favoriteId: ID!): Favorite
 	}
