@@ -94,80 +94,197 @@ const resolvers = {
 			const token = signToken(user);
 			return { token, user };
 		},
-		updateUser: async (parent, { username, email, password }) => {
-			const user = await User.create({ username, email, password });
+		updateUser: async (parent, { username, email, password }, context) => {
+			if (!context.user) {
+				throw new AuthenticationError("You need to be logged in!");
+			}
+
+			const updateData = {};
+			if (username) updateData.username = username;
+			if (email) updateData.email = email;
+			if (password) updateData.password = password;
+
+			const user = await User.findOneAndUpdate(
+				{ _id: context.user._id },
+				{ $set: updateData },
+				{ new: true }
+			);
+
 			const token = signToken(user);
 			return { token, user };
 		},
 		addAdminCard: async (parent, { question, answer, concept }, context) => {
-			if (context.user) {
-				const card = await Card.create({
-					question,
-					answer,
-					concept,
-					createdBy: context.user._id,
-				});
-				await User.findOneAndUpdate(
-					{ _id: context.user._id },
-					{ $addToSet: { cards: card._id } }
-				);
-				return card;
+			// Check if the user is authenticated
+			if (!context.user) {
+				throw new AuthenticationError("You need to be logged in!");
 			}
-			throw new AuthenticationError("You need to be logged in!");
+
+			// Verify that the user has admin privileges
+			const user = await User.findById(context.user._id);
+			if (!user || !user.admin) {
+				throw new Error(
+					"You do not have the necessary permissions to perform this action!"
+				);
+			}
+
+			// Create the card
+			const card = await Card.create({
+				question,
+				answer,
+				concept,
+				createdBy: context.user._id,
+			});
+
+			// Update the user's cards
+			await User.findOneAndUpdate(
+				{ _id: context.user._id },
+				{ $addToSet: { cards: card._id } }
+			);
+
+			return card;
 		},
 		updateAdminCard: async (
 			parent,
-			{ question, answer, concept },
+			{ cardId, question, answer, concept },
 			context
-		) => {},
+		) => {
+			// Check if the user is authenticated
+			if (!context.user) {
+				throw new AuthenticationError("You need to be logged in!");
+			}
+
+			// Verify that the user has admin privileges
+			const user = await User.findById(context.user._id);
+			if (!user || !user.admin) {
+				// Assuming there is an isAdmin field in the User model
+				throw new Error("You must be an admin to do this");
+			}
+
+			// Check if the card exists
+			const card = await Card.findById(cardId);
+			if (!card) {
+				throw new Error(`Card with ID ${cardId} not found`);
+			}
+
+			// Update the card
+			card.question = question;
+			card.answer = answer;
+			card.concept = concept;
+			const updatedCard = await card.save();
+
+			return updatedCard;
+		},
 		removeAdminCard: async (parent, { cardId }, context) => {
-			if (context.user) {
+			// Check if the user is authenticated
+			if (!context.user) {
+				throw new AuthenticationError("You need to be logged in!");
+			}
+
+			// Verify that the user has admin privileges
+			const user = await User.findById(context.user._id);
+			if (!user || !user.admin) {
+				throw new Error("You must be an admin to do this");
+			}
+
+			try {
+				// Find the card and ensure it was authored by the current user
 				const card = await Card.findOneAndDelete({
 					_id: cardId,
 					createdBy: context.user._id,
 				});
+
+				if (!card) {
+					throw new UserInputError(
+						`Card with ID ${cardId} not found or you do not have permission to delete it`
+					);
+				}
+
+				// Remove the card reference from the user's list of cards
 				await User.findOneAndUpdate(
 					{ _id: context.user._id },
 					{ $pull: { cards: card._id } }
 				);
+
 				return card;
+			} catch (error) {
+				throw new Error(`Failed to delete card: ${error.message}`);
 			}
-			throw new AuthenticationError("You need to be logged in!");
 		},
 		addUserCard: async (parent, { question, answer, concept }, context) => {
-			if (context.user) {
-				const card = await Card.create({
-					question,
-					answer,
-					concept,
-					createdBy: context.user._id,
-				});
-				await User.findOneAndUpdate(
-					{ _id: context.user._id },
-					{ $addToSet: { cards: card._id } }
-				);
-				return card;
+			// Check if the user is authenticated
+			if (!context.user) {
+				throw new AuthenticationError("You need to be logged in!");
 			}
-			throw new AuthenticationError("You need to be logged in!");
+
+			// Create the card
+			const card = await Card.create({
+				question,
+				answer,
+				concept,
+				createdBy: context.user._id,
+			});
+
+			// Update the user's cards
+			await User.findOneAndUpdate(
+				{ _id: context.user._id },
+				{ $addToSet: { cards: card._id } }
+			);
+
+			return card;
 		},
 		updateUserCard: async (
 			parent,
-			{ question, answer, concept },
+			{ cardId, question, answer, concept },
 			context
-		) => {},
+		) => {
+			// Check if the user is authenticated
+			if (!context.user) {
+				throw new AuthenticationError("You need to be logged in!");
+			}
+
+			// Check if the card exists
+			const card = await Card.findById(cardId);
+			if (!card) {
+				throw new Error(`Card with ID ${cardId} not found`);
+			}
+
+			// Update the card
+			card.question = question;
+			card.answer = answer;
+			card.concept = concept;
+			const updatedCard = await card.save();
+
+			return updatedCard;
+		},
 		removeUserCard: async (parent, { cardId }, context) => {
-			if (context.user) {
+			// Check if the user is authenticated
+			if (!context.user) {
+				throw new AuthenticationError("You need to be logged in!");
+			}
+
+			try {
+				// Find the card and ensure it was authored by the current user
 				const card = await Card.findOneAndDelete({
 					_id: cardId,
 					createdBy: context.user._id,
 				});
+
+				if (!card) {
+					throw new UserInputError(
+						`Card with ID ${cardId} not found or you do not have permission to delete it`
+					);
+				}
+
+				// Remove the card reference from the user's list of cards
 				await User.findOneAndUpdate(
 					{ _id: context.user._id },
 					{ $pull: { cards: card._id } }
 				);
+
 				return card;
+			} catch (error) {
+				throw new Error(`Failed to delete card: ${error.message}`);
 			}
-			throw new AuthenticationError("You need to be logged in!");
 		},
 		addFavorite: async (parent, { cardId }, context) => {
 			if (context.user) {
