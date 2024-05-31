@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
-import { Navigate, Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
-import CardStack from "../components/CardStack";
-import useDeviceType from "../components/useDeviceType";
+import CardStack from "../components/CardStack/index";
 
 const Profile = () => {
-	const { username: userParam } = useParams();
-	const isMobile = useDeviceType();
 
 	// Check for token on component mount
 	useEffect(() => {
