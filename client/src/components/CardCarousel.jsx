@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { QUERY_CARDS } from "../../utils/queries";
+import { QUERY_CARDS } from "../utils/queries";
 
 const CardCarousel = ({ cards, concept }) => {
 	const { concept: urlConcept } = useParams(); // Get concept from URL params
