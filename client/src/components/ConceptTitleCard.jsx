@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { QUERY_CARDS } from "../../utils/queries";
-import CardCarousel from "../CardCarousel/index";
+import { QUERY_CARDS } from "../utils/queries";
+import CardCarousel from "../CardCarousel/CardCarousel";
 
 const ConceptTitleCard = ({ concept }) => {
 	const { loading, data } = useQuery(QUERY_CARDS, {
