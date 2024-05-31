@@ -4,7 +4,6 @@ import { QUERY_ME } from "../utils/queries";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import CardStack from "../components/CardStack/index";
-import useDeviceType from "../components/useDeviceType";
 
 const Profile = () => {
   // const isMobile = useDeviceType();
