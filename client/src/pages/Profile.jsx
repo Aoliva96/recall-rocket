@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
-import { Link, useParams } from "react-router-dom";
+import { UPDATE_USER } from "../utils/mutations";
+import { useParams } from "react-router-dom";
 import Auth from "../utils/auth";
 import CardStack from "../components/CardStack";
+import UpdateForm from "../components/UpdateForm";
 
 const Profile = () => {
 	const { username: userParam } = useParams();
+	const [showUpdateForm, setShowUpdateForm] = useState(false);
+
 	// Check for token on component mount
 	useEffect(() => {
 		const token = Auth.getToken();
@@ -22,7 +26,9 @@ const Profile = () => {
 	}
 
 	// Fetch data for logged-in user
-	const { loading, data } = useQuery(QUERY_ME);
+	const { loading, data, refetch } = useQuery(QUERY_ME);
+
+	const [updateUser] = useMutation(UPDATE_USER);
 
 	// If no user data, return empty object
 	const user = data?.me || {};
@@ -32,11 +38,9 @@ const Profile = () => {
 		return <div>Loading...</div>;
 	}
 
-	// Update user data
-	function updateUser() {
-		// Update user data here
-		console.log("Update button clicked");
-	}
+	const toggleUpdateForm = () => {
+		setShowUpdateForm(!showUpdateForm);
+	};
 
 	// Add an Admin owned card
 	function addAdminCard() {
@@ -49,6 +53,27 @@ const Profile = () => {
 		// Add user card data here
 		console.log("Create a new card button clicked");
 	}
+
+	const handleUpdateUser = async (userData) => {
+		try {
+			const { data } = await updateUser({
+				variables: {
+					username: userData.username,
+					email: userData.email,
+					password: userData.password,
+				},
+			});
+
+			if (data?.updateUser) {
+				// Refetch user data after update
+				refetch();
+				// Hide update form after successful update
+				setShowUpdateForm(false);
+			}
+		} catch (error) {
+			console.error("Error updating user:", error);
+		}
+	};
 
 	return (
 		<div className="col-12 col-lg-10">
@@ -63,12 +88,17 @@ const Profile = () => {
 					<hr className="mb-3" />
 					<p style={{ fontWeight: "bold" }}>Username: {user.username}</p>
 					<p style={{ fontWeight: "bold" }}>Email: {user.email}</p>
-					<button
-						className="btn btn-sm btn-primary text-white mt-1 mb-3 nav-btn"
-						onClick={updateUser}
-					>
-						Update
-					</button>
+					{!showUpdateForm && (
+						<button
+							className="btn btn-sm btn-primary text-white mt-1 mb-3 nav-btn"
+							onClick={toggleUpdateForm}
+						>
+							Update
+						</button>
+					)}
+					{showUpdateForm && (
+						<UpdateForm user={user} onUpdate={handleUpdateUser} />
+					)}
 					<h4>Your Cards</h4>
 					<hr className="mb-3" />
 					{!user.cards ? (

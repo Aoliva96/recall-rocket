@@ -46,6 +46,23 @@ export const UPDATE_USER = gql`
 			user {
 				_id
 				username
+				email
+				admin
+				favorites {
+					_id
+					card {
+						_id
+						question
+						answer
+						concept
+					}
+				}
+				cards {
+					_id
+					question
+					answer
+					concept
+				}
 			}
 		}
 	}

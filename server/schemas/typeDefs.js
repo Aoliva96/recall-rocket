@@ -3,6 +3,7 @@ const typeDefs = `
 		_id: ID!
 		username: String!
 		email: String!
+		admin: Boolean
 		cards: [Card]!
 		favorites: [Favorite]!
 	}
