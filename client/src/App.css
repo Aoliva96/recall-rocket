@@ -1383,15 +1383,37 @@ label form [type="radio"] {
 
 /* hides the mobile buttons */
 @media screen and (min-width: 640px) {
+  
   .nav-btn-home {
+    display: none;
+  }
+  .expandable-nav {
     display: none;
   }
 }
 /* hides the buttons for desktop */
 @media screen and (max-width: 640px) {
+  .card-mobile{
+    width: 80% !important;
+    flex-direction: column;
+    left: 50px;
+  }
   .nav-btn {
+    background-color: #8ff0ff;
+    color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+  .mobile{
     display: none;
   }
+  .nav-btn:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+  }
+  
   /* adds the buttons to the bottom for mobile */
   .box-bg {
     padding: 29px;
@@ -1841,3 +1863,38 @@ footer a:hover {
   color: #8dd6f8;
   text-decoration: none;
 }
+/* Hide the nav by default on larger screens */
+.expandable-nav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 1000;
+}
+
+.expand-nav-btn {
+  background-color: #8ff0ff;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+}
+.card-main {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 0.5rem 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
