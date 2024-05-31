@@ -11,17 +11,20 @@ const ConceptCardStack = ({ concept }) => {
   }
 
   return (
-    <div
-      className="card-mobile card bg-primary mt-2 mx-2 text-center"
+    <Link
+      to={`/quiz/${concept}`}
+      className="card card-mobile card-link mt-2 mx-2 text-center"
       style={{ height: "200px", width: "23%" }}
     >
-      <h4 className="bg-primary text-white mt-3">{cardConcept}</h4>
-      <div className="card-body mx-2">
-        <div className="display-flex justify-center align-center mt-5">
-          <Link className="start-btn" to={`/quiz/${concept}`}></Link>
+      <h4 className="mt-3" style={{ textDecoration: "none" }}>
+        {cardConcept}
+      </h4>
+      <div className="card-body">
+        <div className="display-flex justify-space-around align-center mt-5">
+          <div className="start-btn"></div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

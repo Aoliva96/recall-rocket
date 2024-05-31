@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client";
 import ConceptCardStack from "../components/ConceptCardStack";
 import { QUERY_CONCEPTS } from "../utils/queries";
 import Auth from "../utils/auth";
-import ExpandableNav from "../components/ExpandableNav"; // Import the ExpandableNav component
+import ExpandableNav from "../components/ExpandableNav";
 
 const Home = () => {
   const { loading, data } = useQuery(QUERY_CONCEPTS);
@@ -29,7 +29,7 @@ const Home = () => {
               className="btn mobile btn-md btn-light m-2 nav-btn-home nav-btn "
               to="/me"
             >
-              {Auth.getProfile()?.username} My profile
+              My profile
             </Link>
             <button
               className="btn btn-md btn-light m-2 mobile  nav-btn-home nav-btn"
@@ -60,9 +60,10 @@ const Home = () => {
               knowledge of the MERN stack. Choose between the MongoDB,
               Express.js, React, or Node.js card sets below to get started! If
               you find any cards that you would like to spend more time
-              reviewing later, simply create an account and get access to our
-              handy favoriting feature. Your favorite cards will be saved to
-              your profile for easy access. Happy studying!
+              reviewing later, simply create an account and you'll see that each
+              flashcard now has a favorite button in the top right. Cards tagged
+              as a favorite will be saved to your profile for easy access. Happy
+              studying!
             </p>
           </div>
         </div>
@@ -72,7 +73,7 @@ const Home = () => {
           <h4 className="card-header bg-primary text-white p-2 pl-3">
             MERN Concept Cards:
           </h4>
-          <div className="card-main card-mobile  ">
+          <div className="card-main card-mobile pl-2">
             {concepts.map((concept) => (
               <ConceptCardStack
                 key={concept._id}
@@ -83,7 +84,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <ExpandableNav /> {/* Add the ExpandableNav component here */}
+      {/* ExpandableNav for mobile */}
+      <ExpandableNav />
     </>
   );
 };
