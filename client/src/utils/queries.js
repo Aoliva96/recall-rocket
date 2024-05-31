@@ -16,6 +16,7 @@ export const QUERY_ME = gql`
 					username
 				}
 			}
+			admin
 			favorites {
 				_id
 				card {
@@ -46,6 +47,7 @@ export const QUERY_USER = gql`
 					username
 				}
 			}
+			admin
 			favorites {
 				_id
 				card {
