@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
-import { Navigate, Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 import CardStack from "../components/CardStack/index";
 import useDeviceType from "../components/useDeviceType";
 
 const Profile = () => {
-  const { username: userParam } = useParams();
-  const isMobile = useDeviceType();
+  // const isMobile = useDeviceType();
 
   // Check for token on component mount
   useEffect(() => {
@@ -26,7 +25,7 @@ const Profile = () => {
 
   // Fetch data for logged-in user
   const { loading, data } = useQuery(QUERY_ME, {
-    variables: { username: userParam },
+    variables: { username: "Emily Davis" },
   });
 
   const user = data?.me || {};
