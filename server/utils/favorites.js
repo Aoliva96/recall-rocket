@@ -7,7 +7,7 @@ async function addFavorite(userId, cardId) {
 		question: card.question,
 		answer: card.answer,
 		concept: card.concept,
-		cardAuthor: card.cardAuthor,
+		createdBy: card.createdBy,
 	});
 
 	await User.findOneAndUpdate(
