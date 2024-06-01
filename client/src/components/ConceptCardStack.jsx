@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Auth from "../utils/auth";
-import ExpandableNav from "../components/ExpandableNav";
 
 const ConceptCardStack = ({ concept }) => {
   // Capitalize the first letter of the concept
@@ -17,7 +15,7 @@ const ConceptCardStack = ({ concept }) => {
     <Link
       to={`/quiz/${concept}`}
       className="card card-mobile card-link mt-2 mx-2 text-center"
-      style={{ height: "200px", width: "23%" }}
+      style={{ height: "13rem", width: "20rem" }}
     >
       <h4 className="mt-3" style={{ textDecoration: "none" }}>
         {cardConcept}

@@ -54,7 +54,7 @@ const Home = () => {
           <h4 className="card-header bg-primary text-white p-2 pl-3">
             Welcome to RecallRocket!
           </h4>
-          <div className="card-body mx-2">
+          <div className="card-body mx-3">
             <p>
               RecallRocket is a flashcard app that helps you reinforce your
               knowledge of the MERN stack. Choose between the MongoDB,
@@ -73,7 +73,7 @@ const Home = () => {
           <h4 className="card-header bg-primary text-white p-2 pl-3">
             MERN Concept Cards:
           </h4>
-          <div className="card-main card-mobile pl-2">
+          <div className="card-main card-mobile px-2">
             {concepts.map((concept) => (
               <ConceptCardStack
                 key={concept._id}
