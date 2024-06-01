@@ -10,7 +10,9 @@ const Footer = () => {
         >
           <p>
             Project created in May 2024 by{" "}
-            <span style={{ fontWeight: "bold" }}>Team Rocket!</span>
+            <span style={{ fontWeight: "bold" }}>
+              <Link to="/about">Team Rocket!</Link>
+            </span>
           </p>
           <p>
             <Link to="https://github.com/Aoliva96">Aster O.</Link>

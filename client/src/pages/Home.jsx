@@ -73,7 +73,7 @@ const Home = () => {
           <h4 className="card-header bg-primary text-white p-2 pl-3">
             MERN Concept Cards:
           </h4>
-          <div className="card-main card-mobile pl-2">
+          <div className="card-main card-mobile px-2">
             {concepts.map((concept) => (
               <ConceptCardStack
                 key={concept._id}
