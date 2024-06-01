@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/quiz/:concept", // Dynamic route for quiz
+        path: "/quiz/:concept",
         element: <CardCarousel />,
       },
     ],

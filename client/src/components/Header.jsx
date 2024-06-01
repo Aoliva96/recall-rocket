@@ -4,12 +4,6 @@ import Auth from "../utils/auth";
 import bannerLogo from "../assets/logo.svg";
 
 const Header = () => {
-  // Logout function
-  const logout = (event) => {
-    event.preventDefault();
-    Auth.logout();
-  };
-
   // Check device width
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
   const [isTablet, setIsTablet] = useState(
@@ -30,6 +24,12 @@ const Header = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  // Logout function
+  const logout = (event) => {
+    event.preventDefault();
+    Auth.logout();
+  };
 
   return (
     <header className="bg-primary text-light py-3 flex-row align-center nav-header">

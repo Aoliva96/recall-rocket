@@ -10,31 +10,6 @@ const Signup = () => {
     email: "",
     password: "",
   });
-  const [addUser, { error, data }] = useMutation(ADD_USER);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-  };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    console.log(formState);
-
-    try {
-      const { data } = await addUser({
-        variables: { ...formState },
-      });
-
-      Auth.login(data.addUser.token);
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   // Check device width
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
@@ -49,6 +24,31 @@ const Signup = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const [addUser, { error, data }] = useMutation(ADD_USER);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await addUser({
+        variables: { ...formState },
+      });
+
+      Auth.login(data.addUser.token);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -100,7 +100,9 @@ const Signup = () => {
           )}
 
           {error && (
-            <div className="my-3 p-3 bg-danger text-white">{error.message}</div>
+            <div className="card m-0 mt-3 p-3 bg-danger text-white text-center">
+              Sign up failed, please try again.
+            </div>
           )}
         </div>
       </div>
