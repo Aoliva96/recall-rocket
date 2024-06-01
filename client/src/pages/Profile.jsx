@@ -5,7 +5,6 @@ import { UPDATE_USER, ADD_USER_CARD, ADD_ADMIN_CARD } from "../utils/mutations";
 import Auth from "../utils/auth";
 import CardStack from "../components/CardStack";
 import UpdateForm from "../components/UpdateForm";
-import ExpandableNav from "../components/ExpandableNav";
 import CreateCardForm from "../components/CreateCardForm";
 
 const Profile = () => {
@@ -13,24 +12,24 @@ const Profile = () => {
 	const [showCreateCardForm, setShowCreateCardForm] = useState(false);
 	const [cardType, setCardType] = useState(null);
 
-  // Check device width
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth > 992);
-    };
+	// Check device width
+	const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
+	useEffect(() => {
+		const handleResize = () => {
+			setIsDesktop(window.innerWidth > 992);
+		};
 
-    // Add/remove event listener as needed
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+		// Add/remove event listener as needed
+		window.addEventListener("resize", handleResize);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, []);
 
-  // Check for token on component mount
-  useEffect(() => {
-    const token = Auth.getToken();
-  }, []);
+	// Check for token on component mount
+	useEffect(() => {
+		const token = Auth.getToken();
+	}, []);
 
 	// Check if user is logged in
 	if (!Auth.loggedIn()) {
@@ -113,9 +112,9 @@ const Profile = () => {
 			console.error("Error creating card:", error);
 		}
 	};
-  
-  // Debug
-  console.log(
+
+	// Debug
+	console.log(
 		"Cards with createdBy:",
 		user.cards.map((card) => card.createdBy._id)
 	);
@@ -144,10 +143,10 @@ const Profile = () => {
 						{!showUpdateForm && (
 							<button
 								className={
-                  isDesktop
-                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
-                    : "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
-                }
+									isDesktop
+										? "btn btn-sm btn-primary text-white mb-3 py-1"
+										: "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
+								}
 								onClick={toggleUpdateForm}
 							>
 								Update Info
@@ -174,10 +173,10 @@ const Profile = () => {
 						{!showCreateCardForm && !user.admin && (
 							<button
 								className={
-                  isDesktop
-                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
-                    : "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
-                }
+									isDesktop
+										? "btn btn-sm btn-primary text-white mb-3 py-1"
+										: "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
+								}
 								onClick={() => toggleCreateCardForm("user")}
 							>
 								New Card
@@ -186,10 +185,10 @@ const Profile = () => {
 						{!showCreateCardForm && user.admin && (
 							<button
 								className={
-                  isDesktop
-                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
-                    : "btn btn-md btn-link text-black mb-3 py-2 nav-btn"
-                }
+									isDesktop
+										? "btn btn-sm btn-primary text-white mb-3 py-1"
+										: "btn btn-md btn-link text-black mb-3 py-2 nav-btn"
+								}
 								onClick={() => toggleCreateCardForm("admin")}
 							>
 								Admin: New Public Card
@@ -219,8 +218,6 @@ const Profile = () => {
 					</div>
 				</div>
 			</div>
-			{/* ExpandableNav for mobile */}
-			<ExpandableNav />
 		</>
 	);
 };
