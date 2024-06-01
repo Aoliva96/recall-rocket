@@ -119,6 +119,8 @@ const resolvers = {
 				throw new AuthenticationError("You need to be logged in!");
 			}
 
+			const cards = await Card.find().populate("createdBy");
+
 			// Verify that the user has admin privileges
 			const user = await User.findById(context.user._id);
 			if (!user || !user.admin) {
@@ -132,6 +134,7 @@ const resolvers = {
 				question,
 				answer,
 				concept,
+				cardAuthor: "seed",
 				createdBy: context.user._id,
 			});
 
@@ -216,11 +219,14 @@ const resolvers = {
 				throw new AuthenticationError("You need to be logged in!");
 			}
 
+			const cards = await Card.find().populate("createdBy");
+
 			// Create the card
 			const card = await Card.create({
 				question,
 				answer,
 				concept,
+				cardAuthor: context.user.username,
 				createdBy: context.user._id,
 			});
 

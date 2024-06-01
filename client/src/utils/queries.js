@@ -13,6 +13,7 @@ export const QUERY_ME = gql`
 				concept
 				cardAuthor
 				createdBy {
+					_id
 					username
 				}
 			}
@@ -25,6 +26,10 @@ export const QUERY_ME = gql`
 					answer
 					concept
 					cardAuthor
+					createdBy {
+						_id
+						username
+					}
 				}
 			}
 		}
@@ -44,6 +49,7 @@ export const QUERY_USER = gql`
 				concept
 				cardAuthor
 				createdBy {
+					_id
 					username
 				}
 			}
@@ -56,6 +62,10 @@ export const QUERY_USER = gql`
 					answer
 					concept
 					cardAuthor
+					createdBy {
+						_id
+						username
+					}
 				}
 			}
 		}
