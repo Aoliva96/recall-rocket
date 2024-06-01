@@ -69,8 +69,12 @@ export const UPDATE_USER = gql`
 `;
 
 export const ADD_ADMIN_CARD = gql`
-	mutation addCard($question: String!, $answer: String!, $concept: String!) {
-		addCard(question: $question, answer: $answer, concept: $concept) {
+	mutation addAdminCard(
+		$question: String!
+		$answer: String!
+		$concept: String!
+	) {
+		addAdminCard(question: $question, answer: $answer, concept: $concept) {
 			_id
 			question
 			answer
@@ -112,8 +116,12 @@ export const REMOVE_ADMIN_CARD = gql`
 `;
 
 export const ADD_USER_CARD = gql`
-	mutation addCard($question: String!, $answer: String!, $concept: String!) {
-		addCard(question: $question, answer: $answer, concept: $concept) {
+	mutation addUserCard(
+		$question: String!
+		$answer: String!
+		$concept: String!
+	) {
+		addUserCard(question: $question, answer: $answer, concept: $concept) {
 			_id
 			question
 			answer
