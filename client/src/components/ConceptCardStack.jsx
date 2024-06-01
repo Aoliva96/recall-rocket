@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Auth from "../utils/auth";
+import ExpandableNav from "../components/ExpandableNav";
 
 const ConceptCardStack = ({ concept }) => {
+  // Capitalize the first letter of the concept
   const capitalizedConcept = concept.charAt(0).toUpperCase() + concept.slice(1);
   let cardConcept;
   if (capitalizedConcept === "Mongo") {

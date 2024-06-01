@@ -17,7 +17,7 @@ const Home = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="w-100 text-center">Loading...</div>;
   }
 
   return (
