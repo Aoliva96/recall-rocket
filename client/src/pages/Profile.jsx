@@ -13,10 +13,24 @@ const Profile = () => {
 	const [showCreateCardForm, setShowCreateCardForm] = useState(false);
 	const [cardType, setCardType] = useState(null);
 
-	// Check for token on component mount
-	useEffect(() => {
-		const token = Auth.getToken();
-	}, []);
+  // Check device width
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 992);
+    };
+
+    // Add/remove event listener as needed
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Check for token on component mount
+  useEffect(() => {
+    const token = Auth.getToken();
+  }, []);
 
 	// Check if user is logged in
 	if (!Auth.loggedIn()) {
@@ -99,8 +113,9 @@ const Profile = () => {
 			console.error("Error creating card:", error);
 		}
 	};
-
-	console.log(
+  
+  // Debug
+  console.log(
 		"Cards with createdBy:",
 		user.cards.map((card) => card.createdBy._id)
 	);
@@ -128,7 +143,11 @@ const Profile = () => {
 						{/* Show update form conditionally */}
 						{!showUpdateForm && (
 							<button
-								className="btn btn-sm btn-primary text-white mt-1 mb-3 py-1 nav-btn"
+								className={
+                  isDesktop
+                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
+                    : "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
+                }
 								onClick={toggleUpdateForm}
 							>
 								Update Info
@@ -154,7 +173,11 @@ const Profile = () => {
 						{/* Render buttons for adding cards */}
 						{!showCreateCardForm && !user.admin && (
 							<button
-								className="btn btn-sm btn-primary text-white mt-1 mb-3 py-1 nav-btn"
+								className={
+                  isDesktop
+                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
+                    : "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
+                }
 								onClick={() => toggleCreateCardForm("user")}
 							>
 								New Card
@@ -162,10 +185,14 @@ const Profile = () => {
 						)}
 						{!showCreateCardForm && user.admin && (
 							<button
-								className="btn btn-sm btn-secondary text-white mt-1 mb-3 py-1 nav-btn"
+								className={
+                  isDesktop
+                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
+                    : "btn btn-md btn-link text-black mb-3 py-2 nav-btn"
+                }
 								onClick={() => toggleCreateCardForm("admin")}
 							>
-								Create a New Admin Card
+								Admin: New Public Card
 							</button>
 						)}
 						{showCreateCardForm && (

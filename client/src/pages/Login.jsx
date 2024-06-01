@@ -6,7 +6,22 @@ import ExpandableNav from "../components/ExpandableNav";
 
 const Login = () => {
   const [formState, setFormState] = useState({ email: "", password: "" });
+
   const [login, { error, data }] = useMutation(LOGIN_USER);
+
+  // Check device width
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 992);
+    };
+
+    // Add/remove event listener as needed
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -27,8 +42,8 @@ const Login = () => {
       });
 
       Auth.login(data.login.token);
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
     }
 
     // clear form values
@@ -37,20 +52,6 @@ const Login = () => {
       password: "",
     });
   };
-
-  // Check device width
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth > 992);
-    };
-
-    // Add/remove event listener as needed
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <>
@@ -94,7 +95,9 @@ const Login = () => {
           )}
 
           {error && (
-            <div className="my-3 p-3 bg-danger text-white">{error.message}</div>
+            <div className="card m-0 mt-3 p-3 bg-danger text-white text-center">
+              Login failed, please try again.
+            </div>
           )}
         </div>
       </div>
