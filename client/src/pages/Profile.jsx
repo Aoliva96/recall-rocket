@@ -6,6 +6,7 @@ import Auth from "../utils/auth";
 import CardStack from "../components/CardStack";
 import UpdateForm from "../components/UpdateForm";
 import CreateCardForm from "../components/CreateCardForm";
+import CardCarousel from "../components/CardCarousel";
 
 const Profile = () => {
 	const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -162,7 +163,7 @@ const Profile = () => {
 							<p>You haven't created any cards yet.</p>
 						) : (
 							<div className="card-stack-container">
-								<CardStack
+								<CardCarousel
 									cards={user.cards}
 									title="Your Cards"
 									showUsername={false}
