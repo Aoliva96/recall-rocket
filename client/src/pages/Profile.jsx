@@ -42,12 +42,14 @@ const Profile = () => {
 
 	// Fetch data for logged-in user
 	const { loading, data, refetch } = useQuery(QUERY_ME);
+	console.log("Query data:", data);
 	const [updateUser] = useMutation(UPDATE_USER);
 	const [addUserCard] = useMutation(ADD_USER_CARD);
 	const [addAdminCard] = useMutation(ADD_ADMIN_CARD);
 
 	// If no user data, return empty object
 	const user = data?.me || {};
+	console.log("User data:", user);
 
 	// Check if loading
 	if (loading) {
@@ -118,6 +120,11 @@ const Profile = () => {
 		"Cards with createdBy:",
 		user.cards.map((card) => card.createdBy._id)
 	);
+	console.log(
+		"Cards with username:",
+		user.cards.map((card) => card.createdBy.username)
+	);
+	console.log("User cards:", user.cards);
 
 	return (
 		<>
@@ -157,18 +164,14 @@ const Profile = () => {
 						)}
 						<h4>Your Cards</h4>
 						<hr className="mb-3" />
-						{/* Check if user has cards */}
-						{!user.cards.length ? (
-							<p>You haven't created any cards yet.</p>
-						) : (
-							<div className="card-stack-container">
-								<CardStack
-									cards={user.cards}
-									title="Your Cards"
-									showUsername={false}
-								/>
-							</div>
-						)}
+
+						<div className="card-stack-container">
+							<CardStack
+								cards={user.cards}
+								title="Your Cards"
+								showUsername={false}
+							/>
+						</div>
 						{/* Render buttons for adding cards */}
 						{!showCreateCardForm && !user.admin && (
 							<button
@@ -203,18 +206,13 @@ const Profile = () => {
 						{/* Display favorites */}
 						<h4>Your Favorites</h4>
 						<hr className="mb-3" />
-						{/* Check if user has favorites */}
-						{user.favorites.length === 0 ? (
-							<p>You haven't saved any favorites yet.</p>
-						) : (
-							<div className="favorite-container">
-								<CardStack
-									cards={user.favorites.map((favorite) => favorite.card)}
-									title="Your Favorites"
-									showUsername={true}
-								/>
-							</div>
-						)}
+						<div className="favorite-container">
+							<CardStack
+								cards={user.favorites.map((favorite) => favorite.card)}
+								title="Your Favorites"
+								showUsername={true}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

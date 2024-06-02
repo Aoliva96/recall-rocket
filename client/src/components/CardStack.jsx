@@ -1,67 +1,78 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
+import { QUERY_CARDS } from "../utils/queries";
 import CardSingle from "./CardSingle";
 
-const CardStack = ({ cards, title, showTitle = true, showUsername = true }) => {
-	const [currentCardIndex, setCurrentCardIndex] = useState(0);
-	const [showSingleCard, setShowSingleCard] = useState(false);
+const CardStack = ({ cards = [] }) => {
+	const { concept: urlConcept } = useParams(); // Get concept from URL params
+	console.log("Cards prop:", cards);
+	console.log("Concept:", urlConcept);
 
-	const toggleAnswer = () => {
-		setShowSingleCard(!showSingleCard);
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const [showAnswer, setShowAnswer] = useState(false);
+	// const [localCards, setLocalCards] = useState([]);
+
+	const createdByIds = cards.map((card) => card.createdBy.id);
+	console.log("Created by IDs:", createdByIds);
+
+	const { loading, data, error } = useQuery(QUERY_CARDS, {
+		variables: { concept: urlConcept, createdBy: createdByIds },
+	});
+
+	useEffect(() => {
+		console.log("Loading:", loading);
+		console.log("Data:", data);
+		console.log("Error:", error);
+		console.log("Cards prop in useEffect:", cards);
+	}, [loading, data, error, urlConcept, createdByIds]);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
+	const handleNext = () => {
+		setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
+		setShowAnswer(false);
 	};
 
 	const handleBack = () => {
-		if (currentCardIndex > 0) {
-			setCurrentCardIndex(currentCardIndex - 1);
-		}
+		setCurrentIndex(
+			(prevIndex) => (prevIndex - 1 + localCards.length) % cards.length
+		);
+		setShowAnswer(false);
 	};
 
-	const handleNext = () => {
-		if (currentCardIndex < cards.length - 1) {
-			setCurrentCardIndex(currentCardIndex + 1);
-		}
+	const toggleAnswer = () => {
+		setShowAnswer((prevShowAnswer) => !prevShowAnswer);
 	};
 
-	if (!cards.length) {
-		return <h3>No cards about this concept yet.</h3>;
-	}
+	const card = cards[currentIndex];
 
-	console.log("Cards array:", cards);
 	return (
-		<div>
-			{showTitle && <h3>{title}</h3>}
-			{cards.map((card, index) => (
-				<div key={card._id} className="card mb-3">
-					<h4 className="card-header bg-primary text-light p-2 m-0">
-						{showUsername ? (
-							<Link
-								className="text-light"
-								to={`/profiles/${card.createdBy._id}`}
-							>
-								{card.createdBy.username} <br />
-								<span style={{ fontSize: "1rem" }}>
-									had this card on {card.createdAt}
-								</span>
-							</Link>
-						) : (
-							<>
-								<span style={{ fontSize: "1rem" }}>
-									You had this card on {card.createdAt}
-								</span>
-							</>
-						)}
-					</h4>
-					<div className="card-body bg-light p-2">
-						<p>{card.cardText}</p>
-					</div>
-					<Link
-						className="btn btn-primary btn-block btn-squared"
-						to={`/cards/${card._id}`}
-					>
-						Join the discussion on this card.
-					</Link>
-				</div>
-			))}
+		<div className="my-3">
+			<h3 className="card-header bg-dark text-light p-2 m-0">
+				{card.question} <br />
+				<span style={{ fontSize: "1rem" }}>
+					This card is about {card.concept}
+				</span>
+			</h3>
+			<div className="bg-light py-4">
+				<blockquote
+					onClick={toggleAnswer}
+					className="p-4"
+					style={{
+						fontSize: "1.5rem",
+						fontStyle: "italic",
+						border: "2px dotted #1a1a1a",
+						lineHeight: "1.5",
+					}}
+				>
+					{showAnswer ? card.answer : "Click to reveal the answer"}
+				</blockquote>
+			</div>
+			<button onClick={handleBack}>Back</button>
+			<button onClick={handleNext}>Next</button>
 		</div>
 	);
 };

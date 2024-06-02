@@ -411,9 +411,9 @@ h6 {
 	font-size: 1rem;
 }
 
-h7 {
-	font-size: 0.6rem;
-	font-style: italic;
+.small {
+	font-size: 0.6rem !important;
+	font-style: italic !important;
 }
 
 p {
@@ -1931,8 +1931,6 @@ label form [type="radio"] {
 
 /* Footer */
 footer {
-	padding-left: 5%;
-	padding-right: 5%;
 	padding-bottom: 10vh;
 	height: 20%;
 	color: orange;
