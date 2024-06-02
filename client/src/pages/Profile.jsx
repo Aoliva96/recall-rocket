@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ME } from "../utils/queries";
-import {
-  UPDATE_USER,
-  ADD_USER_CARD,
-  ADD_ADMIN_CARD,
-  UPDATE_USER_CARD,
-} from "../utils/mutations";
+import { UPDATE_USER, ADD_USER_CARD, ADD_ADMIN_CARD } from "../utils/mutations";
 import Auth from "../utils/auth";
 import CardStack from "../components/CardStack";
 import UpdateForm from "../components/UpdateForm";
 import CreateCardForm from "../components/CreateCardForm";
-import UpdateCardForm from "../components/UpdateCardForm";
 
 const Profile = () => {
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [showCreateCardForm, setShowCreateCardForm] = useState(false);
-  const [showUpdateCardForm, setShowUpdateCardForm] = useState(false);
-  const [cardToUpdate, setCardToUpdate] = useState(null);
   const [cardType, setCardType] = useState(null);
 
   // Check device width
@@ -53,7 +45,6 @@ const Profile = () => {
   const [updateUser] = useMutation(UPDATE_USER);
   const [addUserCard] = useMutation(ADD_USER_CARD);
   const [addAdminCard] = useMutation(ADD_ADMIN_CARD);
-  const [updateUserCard] = useMutation(UPDATE_USER_CARD);
 
   // If no user data, return empty object
   const user = data?.me || {};
@@ -122,31 +113,6 @@ const Profile = () => {
     }
   };
 
-  const handleUpdateCard = async (cardData) => {
-    try {
-      const { data } = await updateUserCard({
-        variables: {
-          cardId: cardData._id,
-          concept: cardData.concept,
-          question: cardData.question,
-          answer: cardData.answer,
-        },
-      });
-
-      if (data?.updateUserCard) {
-        refetch();
-        setShowUpdateCardForm(false);
-      }
-    } catch (error) {
-      console.error("Error updating card:", error);
-    }
-  };
-
-  const toggleUpdateCardForm = (card) => {
-    setCardToUpdate(card);
-    setShowUpdateCardForm(!showUpdateCardForm);
-  };
-
   return (
     <>
       <div className="col-12 col-lg-10">
@@ -191,7 +157,6 @@ const Profile = () => {
                 cards={user.cards}
                 title="Your Cards"
                 showUsername={false}
-                onUpdateCard={toggleUpdateCardForm} // Pass the toggle function to update card
               />
             </div>
             {/* Render buttons for adding cards */}
@@ -223,26 +188,6 @@ const Profile = () => {
               <CreateCardForm
                 onCreate={handleCreateCard}
                 onCancel={toggleCreateCardForm}
-              />
-            )}
-            {/* Render buttons for updating cards */}
-            {!showUpdateCardForm && (
-              <button
-                className={
-                  isDesktop
-                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
-                    : "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
-                }
-                onClick={() => setShowUpdateCardForm(true)} // Show the update card form
-              >
-                Update Card
-              </button>
-            )}
-            {showUpdateCardForm && (
-              <UpdateCardForm
-                cardData={cardToUpdate} // Pass the cardToUpdate state
-                onUpdate={handleUpdateCard}
-                onCancel={() => setShowUpdateCardForm(false)} // Hide the update card form
               />
             )}
             {/* Display favorites */}

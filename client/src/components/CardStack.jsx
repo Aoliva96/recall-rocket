@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { QUERY_CARDS, QUERY_FAVORITES } from "../utils/queries";
 import { ADD_FAVORITE, REMOVE_FAVORITE } from "../utils/mutations";
+import UpdateCardForm from "./UpdateCardForm";
 
 const CardStack = ({ cards = [] }) => {
   const { concept: urlConcept } = useParams(); // Get concept from URL params
@@ -10,6 +11,8 @@ const CardStack = ({ cards = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [cardToUpdate, setCardToUpdate] = useState(null);
 
   const {
     loading: loadingCards,
@@ -41,6 +44,8 @@ const CardStack = ({ cards = [] }) => {
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
     setShowAnswer(false);
+    setShowUpdateForm(false); // Close update form when navigating to next card
+    setCardToUpdate(null); // Reset cardToUpdate when navigating to next card
   };
 
   const handleBack = () => {
@@ -48,6 +53,8 @@ const CardStack = ({ cards = [] }) => {
       (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
     );
     setShowAnswer(false);
+    setShowUpdateForm(false); // Close update form when navigating to previous card
+    setCardToUpdate(null); // Reset cardToUpdate when navigating to previous card
   };
 
   const toggleAnswer = () => {
@@ -84,6 +91,11 @@ const CardStack = ({ cards = [] }) => {
 
   const isFavorite = () => favoriteId !== null;
 
+  const toggleUpdateForm = () => {
+    setShowUpdateForm(!showUpdateForm);
+    setCardToUpdate(card); // Set the cardToUpdate to the current card
+  };
+
   return (
     <div className="my-3">
       <h3 className="card-header bg-dark text-light p-2 m-0">
@@ -112,13 +124,32 @@ const CardStack = ({ cards = [] }) => {
       <button onClick={handleNext}>Next</button>
       <div>
         {card && (
-          <button
-            onClick={isFavorite() ? handleRemoveFavorite : handleAddFavorite}
-          >
-            {isFavorite() ? "Remove from Favorites" : "Add to Favorites"}
-          </button>
+          <>
+            <button
+              onClick={isFavorite() ? handleRemoveFavorite : handleAddFavorite}
+            >
+              {isFavorite() ? "Remove from Favorites" : "Add to Favorites"}
+            </button>
+            <button onClick={toggleUpdateForm}>Update Card</button>
+          </>
         )}
       </div>
+
+      {showUpdateForm && (
+        <UpdateCardForm
+          cardToUpdate={cardToUpdate} // Pass the cardToUpdate state
+          onUpdate={(updatedCard) => {
+            // Implement update logic here
+            console.log("Updated card:", updatedCard);
+            setShowUpdateForm(false); // Close the update form after updating
+            setCardToUpdate(null); // Reset cardToUpdate after updating
+          }}
+          onCancel={() => {
+            setShowUpdateForm(false); // Close the update form on cancel
+            setCardToUpdate(null); // Reset cardToUpdate on cancel
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { UPDATE_USER_CARD } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
 
 const UpdateCardForm = ({ cardToUpdate, onUpdate, onCancel }) => {
-  console.log(cardToUpdate);
   const [formState, setFormState] = useState({
     concept: cardToUpdate.concept || "",
     question: cardToUpdate.question || "",
@@ -13,6 +14,8 @@ const UpdateCardForm = ({ cardToUpdate, onUpdate, onCancel }) => {
     question: "",
     answer: "",
   });
+
+  const [updateCard] = useMutation(UPDATE_USER_CARD);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,12 +52,20 @@ const UpdateCardForm = ({ cardToUpdate, onUpdate, onCancel }) => {
       return;
     }
 
-    const formStateToSubmit = {
-      ...formState,
-      concept: formState.concept.toLowerCase(),
-    };
+    try {
+      const { data } = await updateCard({
+        variables: {
+          cardId: cardToUpdate._id,
+          question: formState.question,
+          answer: formState.answer,
+          concept: formState.concept.toLowerCase(),
+        },
+      });
 
-    onUpdate(formStateToSubmit);
+      onUpdate(data.updateUserCard); // Pass the updated card data up to the parent component
+    } catch (error) {
+      console.error("Error updating card:", error);
+    }
   };
 
   return (
