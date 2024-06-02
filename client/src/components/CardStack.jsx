@@ -4,14 +4,17 @@ import { useParams } from "react-router-dom";
 import { QUERY_CARDS } from "../utils/queries";
 import CardSingle from "./CardSingle";
 
-const CardStack = ({ cards }) => {
+const CardStack = ({ cards = [] }) => {
 	const { concept: urlConcept } = useParams(); // Get concept from URL params
+	console.log("Cards prop:", cards);
+	console.log("Concept:", urlConcept);
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [showAnswer, setShowAnswer] = useState(false);
-	const [localCards, setLocalCards] = useState([]);
+	// const [localCards, setLocalCards] = useState([]);
 
 	const createdByIds = cards.map((card) => card.createdBy.id);
+	console.log("Created by IDs:", createdByIds);
 
 	const { loading, data, error } = useQuery(QUERY_CARDS, {
 		variables: { concept: urlConcept, createdBy: createdByIds },
@@ -21,27 +24,21 @@ const CardStack = ({ cards }) => {
 		console.log("Loading:", loading);
 		console.log("Data:", data);
 		console.log("Error:", error);
-
-		if (data) {
-			setLocalCards(data.cards);
-		}
+		console.log("Cards prop in useEffect:", cards);
 	}, [loading, data, error, urlConcept, createdByIds]);
 
 	if (loading) {
 		return <div>Loading...</div>;
 	}
-	if (!localCards || localCards.length === 0) {
-		return <div>No cards found user.</div>;
-	}
 
 	const handleNext = () => {
-		setCurrentIndex((prevIndex) => (prevIndex + 1) % localCards.length);
+		setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
 		setShowAnswer(false);
 	};
 
 	const handleBack = () => {
 		setCurrentIndex(
-			(prevIndex) => (prevIndex - 1 + localCards.length) % localCards.length
+			(prevIndex) => (prevIndex - 1 + localCards.length) % cards.length
 		);
 		setShowAnswer(false);
 	};
@@ -50,7 +47,7 @@ const CardStack = ({ cards }) => {
 		setShowAnswer((prevShowAnswer) => !prevShowAnswer);
 	};
 
-	const card = localCards[currentIndex];
+	const card = cards[currentIndex];
 
 	return (
 		<div className="my-3">

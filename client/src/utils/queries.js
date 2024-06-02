@@ -11,7 +11,6 @@ export const QUERY_ME = gql`
 				question
 				answer
 				concept
-				cardAuthor
 				createdBy {
 					_id
 					username
