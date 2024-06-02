@@ -17,7 +17,7 @@ const About = () => {
 							<h4>We are Team Rocket!</h4>
 						</div>
 						<hr className="mb-3" />
-						<h7>no, not that Team Rocket</h7>
+						<p className="small">no, not that Team Rocket</p>
 						<p>
 							We are three full stack developers that began working together
 							during an edX Bootcamp. Together we learned all about the MERN
