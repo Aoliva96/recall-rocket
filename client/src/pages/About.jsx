@@ -1,5 +1,4 @@
 import { React, useEffect, useState } from "react";
-import { React, useEffect, useState } from "react";
 import ExpandableNav from "../components/ExpandableNav";
 import Aster from "../assets/jessie.png";
 import Kristian from "../assets/james.png";
