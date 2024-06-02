@@ -91,10 +91,10 @@ const CardStack = ({ cards = [] }) => {
 	return (
 		<div className="my-3">
 			<h3 className="card-header bg-dark text-light p-2 m-0">
-				{card.question} <br />
 				<span style={{ fontSize: "1rem" }}>
-					This card is about {card.concept}
+					This card is about {card && card.concept}
 				</span>
+				{card && card.question} <br />
 			</h3>
 			<div className="bg-light py-4">
 				<blockquote
@@ -107,18 +107,24 @@ const CardStack = ({ cards = [] }) => {
 						lineHeight: "1.5",
 					}}
 				>
-					{showAnswer ? card.answer : "Click to reveal the answer"}
+					{showAnswer ? card && card.answer : "Click to reveal the answer"}
 				</blockquote>
 			</div>
 
 			<button onClick={handleBack}>Back</button>
 			<button onClick={handleNext}>Next</button>
 			<div>
-				{!isFavorite(card._id) ? (
-					<button onClick={handleAddFavorite}>Add to Favorites</button>
-				) : (
-					<button onClick={() => handleRemoveFavorite(card._id)}>
-						Remove from Favorites
+				{card && (
+					<button
+						onClick={
+							isFavorite(card._id)
+								? () => handleRemoveFavorite(card._id)
+								: handleAddFavorite
+						}
+					>
+						{isFavorite(card._id)
+							? "Remove from Favorites"
+							: "Add to Favorites"}
 					</button>
 				)}
 			</div>

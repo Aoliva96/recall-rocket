@@ -194,11 +194,19 @@ const Profile = () => {
 						<h4>Your Favorites</h4>
 						<hr className="mb-3" />
 						<div className="favorite-container">
-							<CardStack
-								cards={user.favorites.map((favorite) => favorite.card)}
-								title="Your Favorites"
-								showUsername={true}
-							/>
+							{user.favorites && user.favorites.length > 0 ? (
+								<CardStack
+									cards={
+										user.favorites.length === 1
+											? [user.favorites[0].card]
+											: user.favorites.map((favorite) => favorite.card)
+									}
+									title="Your Favorites"
+									showUsername={true}
+								/>
+							) : (
+								<p>You have no favorites yet.</p>
+							)}
 						</div>
 					</div>
 				</div>
