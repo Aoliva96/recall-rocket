@@ -42,14 +42,12 @@ const Profile = () => {
 
 	// Fetch data for logged-in user
 	const { loading, data, refetch } = useQuery(QUERY_ME);
-	console.log("Query data:", data);
 	const [updateUser] = useMutation(UPDATE_USER);
 	const [addUserCard] = useMutation(ADD_USER_CARD);
 	const [addAdminCard] = useMutation(ADD_ADMIN_CARD);
 
 	// If no user data, return empty object
 	const user = data?.me || {};
-	console.log("User data:", user);
 
 	// Check if loading
 	if (loading) {
@@ -114,17 +112,6 @@ const Profile = () => {
 			console.error("Error creating card:", error);
 		}
 	};
-
-	// Debug
-	console.log(
-		"Cards with createdBy:",
-		user.cards.map((card) => card.createdBy._id)
-	);
-	console.log(
-		"Cards with username:",
-		user.cards.map((card) => card.createdBy.username)
-	);
-	console.log("User cards:", user.cards);
 
 	return (
 		<>

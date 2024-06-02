@@ -2,30 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { QUERY_CARDS } from "../utils/queries";
-import CardSingle from "./CardSingle";
 
 const CardStack = ({ cards = [] }) => {
 	const { concept: urlConcept } = useParams(); // Get concept from URL params
-	console.log("Cards prop:", cards);
-	console.log("Concept:", urlConcept);
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [showAnswer, setShowAnswer] = useState(false);
 	// const [localCards, setLocalCards] = useState([]);
 
 	const createdByIds = cards.map((card) => card.createdBy.id);
-	console.log("Created by IDs:", createdByIds);
 
 	const { loading, data, error } = useQuery(QUERY_CARDS, {
 		variables: { concept: urlConcept, createdBy: createdByIds },
 	});
 
-	useEffect(() => {
-		console.log("Loading:", loading);
-		console.log("Data:", data);
-		console.log("Error:", error);
-		console.log("Cards prop in useEffect:", cards);
-	}, [loading, data, error, urlConcept, createdByIds]);
+	useEffect(() => {}, [loading, data, error, urlConcept, createdByIds]);
 
 	if (loading) {
 		return <div>Loading...</div>;
