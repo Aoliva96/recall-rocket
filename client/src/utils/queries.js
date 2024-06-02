@@ -81,6 +81,10 @@ export const QUERY_CARDS = gql`
 			concept
 			cardAuthor
 			createdAt
+			createdBy {
+				_id
+				username
+			}
 		}
 	}
 `;

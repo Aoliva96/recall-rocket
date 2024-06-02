@@ -4,15 +4,17 @@ import { useParams } from "react-router-dom";
 import { QUERY_CARDS } from "../utils/queries";
 import CardSingle from "./CardSingle";
 
-const CardStack = ({ cards, title, showTitle = true, showUsername = true }) => {
+const CardStack = ({ cards }) => {
 	const { concept: urlConcept } = useParams(); // Get concept from URL params
 
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [showAnswer, setShowAnswer] = useState(false);
 	const [localCards, setLocalCards] = useState([]);
 
+	const createdByIds = cards.map((card) => card.createdBy.id);
+
 	const { loading, data, error } = useQuery(QUERY_CARDS, {
-		variables: { concept: urlConcept },
+		variables: { concept: urlConcept, createdBy: createdByIds },
 	});
 
 	useEffect(() => {
@@ -23,13 +25,13 @@ const CardStack = ({ cards, title, showTitle = true, showUsername = true }) => {
 		if (data) {
 			setLocalCards(data.cards);
 		}
-	}, [loading, data, error, urlConcept]);
+	}, [loading, data, error, urlConcept, createdByIds]);
 
 	if (loading) {
 		return <div>Loading...</div>;
 	}
 	if (!localCards || localCards.length === 0) {
-		return <div>No cards found.</div>;
+		return <div>No cards found user.</div>;
 	}
 
 	const handleNext = () => {
