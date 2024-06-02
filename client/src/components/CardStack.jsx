@@ -9,6 +9,8 @@ const CardStack = ({ cards = [] }) => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [favoriteId, setFavoriteId] = useState(null);
+
   const [addFavorite] = useMutation(ADD_FAVORITE);
   const [removeFavorite] = useMutation(REMOVE_FAVORITE);
 
@@ -43,49 +45,53 @@ const CardStack = ({ cards = [] }) => {
   const card = cards[currentIndex];
 
   const handleAddFavorite = async () => {
+    if (isFavorite()) {
+      alert("This card is already in your favorites.");
+      return;
+    }
     try {
-      console.log("Adding to favorites...");
-      console.log("Card ID:", card._id);
-      const result = await addFavorite({
+      const response = await addFavorite({
         variables: {
           cardId: card._id,
         },
-        refetchQueries: [
-          {
-            query: QUERY_CARDS,
-            variables: { concept: urlConcept, createdBy: createdByIds },
-          },
-        ],
+        update: (cache, { data: { addFavorite } }) => {
+          // Update cache after adding favorite
+          setFavoriteId(addFavorite._id);
+        },
       });
+      console.log("Add favorite mutation response:", response); // Log addFavorite response
     } catch (error) {
       console.error("Error adding favorite:", error);
     }
   };
 
-  const handleRemoveFavorite = async (favoriteId) => {
+  const handleRemoveFavorite = async () => {
     try {
-      await removeFavorite({
+      const response = await removeFavorite({
         variables: {
-          favoriteId,
+          favoriteId: favoriteId, // Use the favoriteId state
         },
-        refetchQueries: [
-          {
-            query: QUERY_CARDS,
-            variables: { concept: urlConcept, createdBy: createdByIds },
-          },
-        ],
+        update: () => {
+          // Update cache after removing favorite
+          setFavoriteId(null);
+        },
       });
+      console.log("Remove favorite mutation response:", response); // Log removeFavorite response
     } catch (error) {
       console.error("Error removing favorite:", error);
     }
   };
 
   const isFavorite = () => {
-    return (
+    const favoriteStatus =
       card &&
       card.favorites &&
-      card.favorites.some((fav) => fav.card._id === card._id)
-    );
+      card.favorites.some((fav) => fav.card._id === card._id);
+    if (favoriteStatus) {
+      const fav = card.favorites.find((fav) => fav.card._id === card._id);
+      setFavoriteId(fav._id);
+    }
+    return favoriteStatus;
   };
 
   console.log("Card:", card);
@@ -119,15 +125,9 @@ const CardStack = ({ cards = [] }) => {
       <div>
         {card && (
           <button
-            onClick={
-              isFavorite(card._id)
-                ? () => handleRemoveFavorite(card._id)
-                : handleAddFavorite
-            }
+            onClick={isFavorite() ? handleRemoveFavorite : handleAddFavorite}
           >
-            {isFavorite(card._id)
-              ? "Remove from Favorites"
-              : "Add to Favorites"}
+            {isFavorite() ? "Remove from Favorites" : "Add to Favorites"}
           </button>
         )}
       </div>
