@@ -298,6 +298,9 @@ const resolvers = {
 				const favorite = await Favorite.create({
 					card: card._id,
 					user: context.user._id,
+					question: card.question,
+					answer: card.answer,
+					concept: card.concept,
 				});
 				await User.findOneAndUpdate(
 					{ _id: context.user._id },
