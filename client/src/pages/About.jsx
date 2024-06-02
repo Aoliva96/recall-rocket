@@ -37,7 +37,7 @@ const About = () => {
 						<div className="display-flex align-center">
 							<h4>We are Team Rocket!</h4>
 						</div>
-						<h7>No, not that Team Rocket...</h7>
+						<p className="small">No, not that Team Rocket...</p>
 						<hr className="mb-3" />
 						<p>
 							We are a team of three developers that began working together
