@@ -412,8 +412,8 @@ h6 {
 }
 
 .small {
-	font-size: 0.6rem !important;
-	font-style: italic !important;
+  font-size: 0.6rem !important;
+  font-style: italic !important;
 }
 
 p {
@@ -1956,11 +1956,19 @@ label form [type="radio"] {
   color: #8ff0ff;
 }
 
+/* Flippable card */
+.flip-content {
+  min-height: 250px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1.5rem;
+}
+
 /* Footer */
 footer {
-	padding-bottom: 10vh;
-	height: 20%;
-	color: orange;
+  padding-bottom: 10vh;
+  height: 20%;
+  color: orange;
 }
 footer a {
   color: orange;
@@ -2010,6 +2018,7 @@ footer a:hover {
   display: block;
   margin-bottom: 0.5rem;
 }
+
 /* Image sizing for the About page */
 .small-image {
   width: 5rem;
@@ -2022,13 +2031,11 @@ footer a:hover {
   align-items: center;
   margin-bottom: 1rem;
 }
-
 .profile-info {
   display: flex;
   align-items: center;
   margin-left: 1rem;
 }
-
 .profile-links {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
