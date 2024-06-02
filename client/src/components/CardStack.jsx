@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { QUERY_CARDS } from "../utils/queries";
+import { QUERY_CARDS, QUERY_FAVORITES } from "../utils/queries";
 import { ADD_FAVORITE, REMOVE_FAVORITE } from "../utils/mutations";
 
 const CardStack = ({ cards = [] }) => {
@@ -11,18 +11,30 @@ const CardStack = ({ cards = [] }) => {
   const [showAnswer, setShowAnswer] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
 
+  const {
+    loading: loadingCards,
+    data: cardsData,
+    error: cardsError,
+  } = useQuery(QUERY_CARDS, {
+    variables: { concept: urlConcept },
+  });
+
+  const { loading: loadingFavorites, data: favoritesData } =
+    useQuery(QUERY_FAVORITES);
+
   const [addFavorite] = useMutation(ADD_FAVORITE);
   const [removeFavorite] = useMutation(REMOVE_FAVORITE);
 
-  const createdByIds = cards.map((card) => card.createdBy.id);
+  useEffect(() => {
+    if (favoritesData && cards[currentIndex]) {
+      const favorite = favoritesData.favorites.find(
+        (fav) => fav.card._id === cards[currentIndex]._id
+      );
+      setFavoriteId(favorite ? favorite._id : null);
+    }
+  }, [favoritesData, cards, currentIndex]);
 
-  const { loading, data, error } = useQuery(QUERY_CARDS, {
-    variables: { concept: urlConcept, createdBy: createdByIds },
-  });
-
-  useEffect(() => {}, [loading, data, error, urlConcept, createdByIds]);
-
-  if (loading) {
+  if (loadingCards || loadingFavorites) {
     return <div>Loading...</div>;
   }
 
@@ -45,21 +57,13 @@ const CardStack = ({ cards = [] }) => {
   const card = cards[currentIndex];
 
   const handleAddFavorite = async () => {
-    if (isFavorite()) {
-      alert("This card is already in your favorites.");
-      return;
-    }
     try {
-      const response = await addFavorite({
+      const { data } = await addFavorite({
         variables: {
           cardId: card._id,
         },
-        update: (cache, { data: { addFavorite } }) => {
-          // Update cache after adding favorite
-          setFavoriteId(addFavorite._id);
-        },
       });
-      console.log("Add favorite mutation response:", response); // Log addFavorite response
+      setFavoriteId(data.addFavorite._id);
     } catch (error) {
       console.error("Error adding favorite:", error);
     }
@@ -67,34 +71,18 @@ const CardStack = ({ cards = [] }) => {
 
   const handleRemoveFavorite = async () => {
     try {
-      const response = await removeFavorite({
+      await removeFavorite({
         variables: {
           favoriteId: favoriteId, // Use the favoriteId state
         },
-        update: () => {
-          // Update cache after removing favorite
-          setFavoriteId(null);
-        },
       });
-      console.log("Remove favorite mutation response:", response); // Log removeFavorite response
+      setFavoriteId(null);
     } catch (error) {
       console.error("Error removing favorite:", error);
     }
   };
 
-  const isFavorite = () => {
-    const favoriteStatus =
-      card &&
-      card.favorites &&
-      card.favorites.some((fav) => fav.card._id === card._id);
-    if (favoriteStatus) {
-      const fav = card.favorites.find((fav) => fav.card._id === card._id);
-      setFavoriteId(fav._id);
-    }
-    return favoriteStatus;
-  };
-
-  console.log("Card:", card);
+  const isFavorite = () => favoriteId !== null;
 
   return (
     <div className="my-3">
