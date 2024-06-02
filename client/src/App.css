@@ -411,6 +411,11 @@ h6 {
 	font-size: 1rem;
 }
 
+h7 {
+	font-size: 0.6rem;
+	font-style: italic;
+}
+
 p {
 	font-size: 1.1rem;
 	margin: 0 0 1rem;
@@ -422,6 +427,10 @@ ol,
 dl {
 	margin-top: 0;
 	margin-bottom: 1rem;
+}
+
+li {
+	margin-bottom: 0.5rem;
 }
 
 label {
@@ -1922,6 +1931,8 @@ label form [type="radio"] {
 
 /* Footer */
 footer {
+	padding-left: 5%;
+	padding-right: 5%;
 	padding-bottom: 10vh;
 	height: 20%;
 	color: orange;
@@ -1973,4 +1984,30 @@ footer a:hover {
 .form-fields label {
 	display: block;
 	margin-bottom: 0.5rem;
+}
+/* Image sizing for the About page */
+.small-image {
+	width: 5rem;
+	height: auto;
+}
+
+/* Profile containers for About page */
+.profile-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.profile-info {
+	display: flex;
+	align-items: center;
+	margin-left: 1rem;
+}
+
+.profile-links {
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
+.profile-links a {
+	margin-right: 0.5rem;
 }
