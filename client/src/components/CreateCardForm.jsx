@@ -34,7 +34,12 @@ const CreateCardForm = ({ onCreate, onCancel }) => {
 			return;
 		}
 
-		onCreate(formState);
+		const formStateToSubmit = {
+			...formState,
+			concept: formState.concept.toLowerCase(),
+		};
+
+		onCreate(formStateToSubmit);
 	};
 
 	return (

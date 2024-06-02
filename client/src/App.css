@@ -1945,6 +1945,10 @@ footer a:hover {
 	color: #8dd6f8;
 	text-decoration: none;
 }
+.padding {
+	padding-left: 5% !important;
+	padding-right: 5% !important;
+}
 
 /* Form */
 .form-container {

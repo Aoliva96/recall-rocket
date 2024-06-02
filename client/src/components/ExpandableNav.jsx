@@ -10,9 +10,14 @@ const ExpandableNav = () => {
 		setIsExpanded(!isExpanded);
 	};
 
-	const logout = (event) => {
+	const handleClose = () => {
+		setIsExpanded(false);
+	};
+
+	const logout = async (event) => {
 		event.preventDefault();
-		Auth.logout();
+		await Auth.logout();
+		handleClose();
 	};
 
 	// Reference code for animated icon
@@ -40,10 +45,10 @@ const ExpandableNav = () => {
 				<div className="nav-links">
 					{Auth.loggedIn() ? (
 						<>
-							<Link className="nav-btn" to="/me">
+							<Link className="nav-btn" to="/me" onClick={handleClose}>
 								Profile
 							</Link>
-							<Link className="nav-btn" to="/about">
+							<Link className="nav-btn" to="/about" onClick={handleClose}>
 								About
 							</Link>
 							<Link className="nav-btn" onClick={logout}>
@@ -52,13 +57,13 @@ const ExpandableNav = () => {
 						</>
 					) : (
 						<>
-							<Link className="nav-btn" to="/login">
+							<Link className="nav-btn" to="/login" onClick={handleClose}>
 								Login
 							</Link>
-							<Link className="nav-btn" to="/signup">
+							<Link className="nav-btn" to="/signup" onClick={handleClose}>
 								Signup
 							</Link>
-							<Link className="nav-btn" to="/about">
+							<Link className="nav-btn" to="/about" onClick={handleClose}>
 								About
 							</Link>
 						</>
