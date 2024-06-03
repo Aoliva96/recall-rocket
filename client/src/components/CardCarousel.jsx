@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
 import ExpandableNav from "../components/ExpandableNav";
 import ReactCardFlip from "react-card-flip";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import { QUERY_CARDS } from "../utils/queries";
+import { QUERY_CARDS, QUERY_FAVORITES } from "../utils/queries";
+import { ADD_FAVORITE, REMOVE_FAVORITE } from "../utils/mutations";
 
 const CardCarousel = ({ cards, concept }) => {
   const { concept: urlConcept } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [favoriteId, setFavoriteId] = useState(null);
   const [localCards, setLocalCards] = useState([]);
 
   const { loading, data, error } = useQuery(QUERY_CARDS, {
     variables: { concept: urlConcept },
   });
 
+  const { loading: loadingFavorites, data: favoritesData } =
+    useQuery(QUERY_FAVORITES);
+
+  const [addFavorite] = useMutation(ADD_FAVORITE);
+  const [removeFavorite] = useMutation(REMOVE_FAVORITE);
+
   // Check device width
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 992);
+
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth > 992);
@@ -41,8 +50,22 @@ const CardCarousel = ({ cards, concept }) => {
     }
   }, [loading, data, error, urlConcept]);
 
+  useEffect(() => {
+    if (favoritesData && favoritesData.favorites && localCards[currentIndex]) {
+      const favorite = favoritesData.favorites.find(
+        (fav) => fav.card._id === localCards[currentIndex]._id
+      );
+      setFavoriteId(favorite ? favorite._id : null);
+    } else {
+      setFavoriteId(null); // Reset favoriteId if there are no favorites
+    }
+  }, [favoritesData, localCards, currentIndex]);
+
+  console.log("Current Index:", currentIndex);
+  console.log("Favorite ID:", favoriteId);
+
   // Check for loading or no cards
-  if (loading) {
+  if (loading || loadingFavorites) {
     return <div>Loading...</div>;
   }
   if (!localCards || localCards.length === 0) {
@@ -71,6 +94,34 @@ const CardCarousel = ({ cards, concept }) => {
   } else {
     cardConcept = `${capitalizedConcept}.js`;
   }
+
+  const handleAddFavorite = async () => {
+    try {
+      const { data } = await addFavorite({
+        variables: {
+          cardId: card._id,
+        },
+      });
+      setFavoriteId(data.addFavorite._id);
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    }
+  };
+
+  const handleRemoveFavorite = async () => {
+    try {
+      await removeFavorite({
+        variables: {
+          favoriteId: favoriteId, // Use the favoriteId state
+        },
+      });
+      setFavoriteId(null);
+    } catch (error) {
+      console.error("Error removing favorite:", error);
+    }
+  };
+
+  const isFavorite = () => favoriteId !== null;
 
   return (
     <>
@@ -129,6 +180,31 @@ const CardCarousel = ({ cards, concept }) => {
               Next &#9656;
             </button>
           </div>
+          {card && (
+            <>
+              <button
+                onClick={
+                  isFavorite() ? handleRemoveFavorite : handleAddFavorite
+                }
+                className="btn btn-lg btn-primary w-50"
+                style={{
+                  borderLeft: "1px solid slateGray",
+                  borderRadius: "0 5px 5px 0",
+                }}
+              >
+                {isFavorite() ? (
+                  <>
+                    <span>&#10060;</span>Remove from Favorites
+                    <span>&#10060;</span>
+                  </>
+                ) : (
+                  <>
+                    <span>&#10004;</span>Add to Favorites<span>&#10004;</span>
+                  </>
+                )}
+              </button>
+            </>
+          )}
         </div>
       </div>
       {/* ExpandableNav for mobile */}
