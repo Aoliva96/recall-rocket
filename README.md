@@ -30,15 +30,15 @@ We created an application that allows for self-study of the core concepts of the
 
 Here are some screeenshots of our application:
 
-![homepage](./assets/homepage-screenshot.png)
+![homepage](./client/src/assets/homepage-screenshot.png)
 
-![signup modal](./assets/signup-screenshot.png)
+![signup modal](./client/src/assets/signup-screenshot.png)
 
-![Profile page](./assets/profile-page-screenshot.png)
+![Profile page](./client/src/assets/profile-page-screenshot.png)
 
-![Card Carousel](./assets/card-carousel-screenshot.png)
+![Card Carousel](./client/src/assets/card-carousel-screenshot.png)
 
-![About page](./assets/about-screenshot.png)
+![About page](./client/src/assets/about-screenshot.png)
 
 ## Deployed Application
 
