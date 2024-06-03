@@ -163,14 +163,14 @@ const CardStack = ({ cards = [], userId }) => {
                 }
                 className="btn btn-lg btn-primary w-50"
                 style={{
-                  borderLeft: "1px solid slateGray",
-                  borderRadius: "0 5px 5px 0",
+                  borderRight: "1px solid slateGray",
+                  borderTop: "1px solid slateGray",
+                  borderRadius: "0 0 0 5px",
                 }}
               >
                 {isFavorite() ? (
                   <>
-                    <span>&#10060;</span>Remove from Favorites
-                    <span>&#10060;</span>
+                    <span>&#10060;</span>Remove
                   </>
                 ) : (
                   <>
@@ -186,7 +186,8 @@ const CardStack = ({ cards = [], userId }) => {
                 }`}
                 style={{
                   borderLeft: "1px solid slateGray",
-                  borderRadius: "0 5px 5px 0",
+                  borderTop: "1px solid slateGray",
+                  borderRadius: "0 0 5px 0",
                   cursor:
                     !userId || userId !== card.createdBy._id
                       ? "not-allowed"
@@ -194,7 +195,7 @@ const CardStack = ({ cards = [], userId }) => {
                   opacity: !userId || userId !== card.createdBy._id ? 0.5 : 1,
                 }}
               >
-                Update Card &#9999;
+                Update<span>&#9999;</span>
               </button>
             </>
           )}
