@@ -3,7 +3,11 @@ import ReactCardFlip from "react-card-flip";
 import { useQuery, useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { QUERY_CARDS, QUERY_FAVORITES } from "../utils/queries";
-import { ADD_FAVORITE, REMOVE_FAVORITE } from "../utils/mutations";
+import {
+  ADD_FAVORITE,
+  REMOVE_FAVORITE,
+  REMOVE_USER_CARD,
+} from "../utils/mutations";
 import UpdateCardForm from "./UpdateCardForm";
 
 const CardStack = ({ cards = [], userId }) => {
@@ -27,6 +31,7 @@ const CardStack = ({ cards = [], userId }) => {
 
   const [addFavorite] = useMutation(ADD_FAVORITE);
   const [removeFavorite] = useMutation(REMOVE_FAVORITE);
+  const [removeUserCard] = useMutation(REMOVE_USER_CARD);
 
   // React card flip
   const [isFlipped, setIsFlipped] = useState(false);
@@ -88,6 +93,27 @@ const CardStack = ({ cards = [], userId }) => {
       setFavoriteId(null);
     } catch (error) {
       console.error("Error removing favorite:", error);
+    }
+  };
+
+  const handleDeleteCard = async () => {
+    try {
+      const { data } = await removeUserCard({
+        variables: {
+          cardId: card._id,
+        },
+        refetchQueries: [
+          { query: QUERY_CARDS, variables: { concept: urlConcept } },
+        ],
+      });
+
+      // Handle success, e.g., show message, update state, etc.
+      console.log("Deleted card:", data.removeUserCard);
+
+      // Optionally move to the next card after deletion
+      handleNext();
+    } catch (error) {
+      console.error("Error deleting card:", error);
     }
   };
 
@@ -197,6 +223,27 @@ const CardStack = ({ cards = [], userId }) => {
               >
                 Update<span>&#9999;</span>
               </button>
+              {userId === card.createdBy._id && (
+                <button
+                  onClick={handleDeleteCard}
+                  disabled={!userId || userId !== card.createdBy._id}
+                  className={`btn btn-lg btn-danger w-50 ${
+                    !userId || userId !== card.createdBy._id
+                      ? "disabled-btn"
+                      : ""
+                  }`}
+                  style={{
+                    borderRadius: "0 5px 5px 0",
+                    cursor:
+                      !userId || userId !== card.createdBy._id
+                        ? "not-allowed"
+                        : "pointer",
+                    opacity: !userId || userId !== card.createdBy._id ? 0.5 : 1,
+                  }}
+                >
+                  Delete<span>&#128465;</span>
+                </button>
+              )}
             </>
           )}
         </div>
