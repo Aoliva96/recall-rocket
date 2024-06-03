@@ -249,7 +249,8 @@ const CardStack = ({ cards = [], userId }) => {
                       : ""
                   }`}
                   style={{
-                    borderRadius: "0 5px 5px 0",
+                    borderRadius: "0 0 5px 5px",
+                    borderTop: "1px solid slateGray",
                     cursor:
                       !userId || userId !== card.createdBy._id
                         ? "not-allowed"
