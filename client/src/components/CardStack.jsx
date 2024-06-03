@@ -124,12 +124,28 @@ const CardStack = ({ cards = [], userId }) => {
     setCardToUpdate(card); // Set the cardToUpdate to the current card
   };
 
+  // Format concept name for display
+  const capitalizedConcept =
+    card.concept.charAt(0).toUpperCase() + card.concept.slice(1);
+  let cardConcept;
+  if (capitalizedConcept === "Mongo") {
+    cardConcept = "MongoDB";
+  } else if (
+    capitalizedConcept === "Express" ||
+    capitalizedConcept === "Node" ||
+    capitalizedConcept === "React"
+  ) {
+    cardConcept = `${capitalizedConcept}.js`;
+  } else {
+    cardConcept = capitalizedConcept;
+  }
+
   return (
     <>
       <div>
         {/* Card concept */}
         <div className="card bg-primary text-white text-center mt-2 px-0 pt-2 pb-1">
-          <h4>{card && card.concept}</h4>
+          <h4>{card && cardConcept}</h4>
         </div>
         <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
           {/* Card front */}
