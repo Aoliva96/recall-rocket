@@ -1925,6 +1925,7 @@ label form [type="radio"] {
   width: 100%;
   display: flex;
   flex-wrap: nowrap;
+  justify-content: center;
   align-items: center;
   padding: 0.5rem 0;
   margin-left: auto;

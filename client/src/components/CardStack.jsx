@@ -241,7 +241,7 @@ const CardStack = ({ cards = [], userId }) => {
                     opacity: !userId || userId !== card.createdBy._id ? 0.5 : 1,
                   }}
                 >
-                  Delete<span>&#128465;</span>
+                  <span>&#128465;</span>Delete<span>&#128465;</span>
                 </button>
               )}
             </>
