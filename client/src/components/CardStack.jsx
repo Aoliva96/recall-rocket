@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ReactCardFlip from "react-card-flip";
 import { useQuery, useMutation } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { QUERY_CARDS, QUERY_FAVORITES } from "../utils/queries";
@@ -9,7 +10,6 @@ const CardStack = ({ cards = [], userId }) => {
   const { concept: urlConcept } = useParams(); // Get concept from URL params
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showAnswer, setShowAnswer] = useState(false);
   const [favoriteId, setFavoriteId] = useState(null);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [cardToUpdate, setCardToUpdate] = useState(null);
@@ -28,6 +28,12 @@ const CardStack = ({ cards = [], userId }) => {
   const [addFavorite] = useMutation(ADD_FAVORITE);
   const [removeFavorite] = useMutation(REMOVE_FAVORITE);
 
+  // React card flip
+  const [isFlipped, setIsFlipped] = useState(false);
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   useEffect(() => {
     if (favoritesData && cards[currentIndex]) {
       const favorite = favoritesData.favorites.find(
@@ -43,22 +49,18 @@ const CardStack = ({ cards = [], userId }) => {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % cards.length);
-    setShowAnswer(false);
-    setShowUpdateForm(false); // Close update form when navigating to next card
-    setCardToUpdate(null); // Reset cardToUpdate when navigating to next card
+    setShowUpdateForm(false);
+    setCardToUpdate(null);
+    setIsFlipped(false);
   };
 
   const handleBack = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + cards.length) % cards.length
     );
-    setShowAnswer(false);
-    setShowUpdateForm(false); // Close update form when navigating to previous card
-    setCardToUpdate(null); // Reset cardToUpdate when navigating to previous card
-  };
-
-  const toggleAnswer = () => {
-    setShowAnswer((prevShowAnswer) => !prevShowAnswer);
+    setShowUpdateForm(false);
+    setCardToUpdate(null);
+    setIsFlipped(false);
   };
 
   const card = cards[currentIndex];
@@ -97,66 +99,125 @@ const CardStack = ({ cards = [], userId }) => {
   };
 
   return (
-    <div className="my-3">
-      <h3 className="card-header bg-dark text-light p-2 m-0">
-        <span style={{ fontSize: "1rem" }}>
-          This card is about {card && card.concept}
-        </span>
-        <br />
-        {card && card.question}
-      </h3>
-      <div className="bg-light py-4">
-        <blockquote
-          onClick={toggleAnswer}
-          className="p-4"
-          style={{
-            fontSize: "1.5rem",
-            fontStyle: "italic",
-            border: "2px dotted #1a1a1a",
-            lineHeight: "1.5",
-          }}
-        >
-          {showAnswer ? card && card.answer : "Click to reveal the answer"}
-        </blockquote>
-      </div>
-
-      <button onClick={handleBack}>Back</button>
-      <button onClick={handleNext}>Next</button>
+    <>
       <div>
-        {card && (
-          <>
+        {/* Card concept */}
+        <div className="card bg-primary text-white text-center mt-2 px-0 pt-2 pb-1">
+          <h4>{card && card.concept}</h4>
+        </div>
+        <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+          {/* Card front */}
+          <div
+            onClick={handleFlip}
+            className="card bg-white text-center mt-2 p-0"
+          >
+            <h5 className="card-header bg-primary text-white p-2 pl-3">
+              {card && card.question}
+            </h5>
+            <div className="p-4 m-3 bg-white btn btn-white flip-content">
+              <span style={{ fontStyle: "italic" }}>Click to show answer</span>
+            </div>
+          </div>
+          {/* Card back */}
+          <div
+            onClick={handleFlip}
+            className="card bg-white text-center mt-2 p-0"
+          >
+            <h5 className="card-header bg-primary text-white p-2 pl-3">
+              {card && card.question}
+            </h5>
+            <div className="p-4 m-3 bg-white btn btn-white flip-content">
+              {card && card.answer}
+            </div>
+          </div>
+        </ReactCardFlip>
+        {/* Card nav buttons */}
+        <div className="card bg-primary text-white text-center mt-2 p-0">
+          <div className="w-100 text-center">
             <button
-              onClick={isFavorite() ? handleRemoveFavorite : handleAddFavorite}
+              onClick={handleBack}
+              className="btn btn-lg btn-primary w-50"
+              style={{
+                borderRight: "1px solid slateGray",
+                borderRadius: "5px 0 0 5px",
+              }}
             >
-              {isFavorite() ? "Remove from Favorites" : "Add to Favorites"}
+              &#9666; Back
             </button>
             <button
-              onClick={toggleUpdateForm}
-              disabled={!userId || userId !== card.createdBy._id}
+              onClick={handleNext}
+              className="btn btn-lg btn-primary w-50"
+              style={{
+                borderLeft: "1px solid slateGray",
+                borderRadius: "0 5px 5px 0",
+              }}
             >
-              Update Card
+              Next &#9656;
             </button>
-          </>
+          </div>
+          {card && (
+            <>
+              <button
+                onClick={
+                  isFavorite() ? handleRemoveFavorite : handleAddFavorite
+                }
+                className="btn btn-lg btn-primary w-50"
+                style={{
+                  borderLeft: "1px solid slateGray",
+                  borderRadius: "0 5px 5px 0",
+                }}
+              >
+                {isFavorite() ? (
+                  <>
+                    <span>&#10060;</span>Remove from Favorites
+                    <span>&#10060;</span>
+                  </>
+                ) : (
+                  <>
+                    <span>&#10004;</span>Add to Favorites<span>&#10004;</span>
+                  </>
+                )}
+              </button>
+              <button
+                onClick={toggleUpdateForm}
+                disabled={!userId || userId !== card.createdBy._id}
+                className={`btn btn-lg btn-primary w-50 ${
+                  !userId || userId !== card.createdBy._id ? "disabled-btn" : ""
+                }`}
+                style={{
+                  borderLeft: "1px solid slateGray",
+                  borderRadius: "0 5px 5px 0",
+                  cursor:
+                    !userId || userId !== card.createdBy._id
+                      ? "not-allowed"
+                      : "pointer",
+                  opacity: !userId || userId !== card.createdBy._id ? 0.5 : 1,
+                }}
+              >
+                Update Card &#9999;
+              </button>
+            </>
+          )}
+        </div>
+
+        {showUpdateForm && (
+          <UpdateCardForm
+            cardToUpdate={cardToUpdate} // Pass the cardToUpdate state
+            onUpdate={(updatedCard) => {
+              // Implement update logic here
+              console.log("Updated card:", updatedCard);
+              setShowUpdateForm(false); // Close the update form after updating
+              setCardToUpdate(null); // Reset cardToUpdate after updating
+            }}
+            onCancel={() => {
+              setShowUpdateForm(false); // Close the update form on cancel
+              setCardToUpdate(null); // Reset cardToUpdate on cancel
+            }}
+            userId={userId} // Pass the user ID to the update form
+          />
         )}
       </div>
-
-      {showUpdateForm && (
-        <UpdateCardForm
-          cardToUpdate={cardToUpdate} // Pass the cardToUpdate state
-          onUpdate={(updatedCard) => {
-            // Implement update logic here
-            console.log("Updated card:", updatedCard);
-            setShowUpdateForm(false); // Close the update form after updating
-            setCardToUpdate(null); // Reset cardToUpdate after updating
-          }}
-          onCancel={() => {
-            setShowUpdateForm(false); // Close the update form on cancel
-            setCardToUpdate(null); // Reset cardToUpdate on cancel
-          }}
-          userId={userId} // Pass the user ID to the update form
-        />
-      )}
-    </div>
+    </>
   );
 };
 
