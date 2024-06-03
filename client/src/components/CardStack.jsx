@@ -227,7 +227,7 @@ const CardStack = ({ cards = [], userId }) => {
                 <button
                   onClick={handleDeleteCard}
                   disabled={!userId || userId !== card.createdBy._id}
-                  className={`btn btn-lg btn-danger w-50 ${
+                  className={`btn btn-lg btn-danger w-100 ${
                     !userId || userId !== card.createdBy._id
                       ? "disabled-btn"
                       : ""
@@ -241,7 +241,7 @@ const CardStack = ({ cards = [], userId }) => {
                     opacity: !userId || userId !== card.createdBy._id ? 0.5 : 1,
                   }}
                 >
-                  Delete<span>&#128465;</span>
+                  <span>&#128465;</span>Delete<span>&#128465;</span>
                 </button>
               )}
             </>
