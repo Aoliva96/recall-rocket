@@ -61,9 +61,6 @@ const CardCarousel = ({ cards, concept }) => {
     }
   }, [favoritesData, localCards, currentIndex]);
 
-  console.log("Current Index:", currentIndex);
-  console.log("Favorite ID:", favoriteId);
-
   // Check for loading or no cards
   if (loading || loadingFavorites) {
     return <div>Loading...</div>;
