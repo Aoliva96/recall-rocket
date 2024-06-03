@@ -138,7 +138,7 @@ const Profile = () => {
               <button
                 className={
                   isDesktop
-                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
+                    ? "btn btn-md btn-primary text-white mb-3 py-1"
                     : "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
                 }
                 onClick={toggleUpdateForm}
@@ -165,7 +165,7 @@ const Profile = () => {
               <button
                 className={
                   isDesktop
-                    ? "btn btn-sm btn-primary text-white mb-3 py-1"
+                    ? "btn btn-md btn-primary text-white mb-3 py-1"
                     : "btn btn-md btn-primary text-white mb-3 py-2 nav-btn"
                 }
                 onClick={() => toggleCreateCardForm("user")}
