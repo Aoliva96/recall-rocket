@@ -186,10 +186,10 @@ const CardCarousel = ({ cards, concept }) => {
                 onClick={
                   isFavorite() ? handleRemoveFavorite : handleAddFavorite
                 }
-                className="btn btn-lg btn-primary w-50"
+                className="btn btn-lg btn-primary w-100"
                 style={{
-                  borderLeft: "1px solid slateGray",
-                  borderRadius: "0 5px 5px 0",
+                  borderTop: "1px solid slateGray",
+                  borderRadius: "0 0 5px 5px",
                 }}
               >
                 {isFavorite() ? (
