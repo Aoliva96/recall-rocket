@@ -152,14 +152,21 @@ const Profile = () => {
             <h4>Your Cards</h4>
             <hr className="mb-3" />
 
-            <div className="card-stack-container">
-              <CardStack
-                cards={user.cards}
-                title="Your Cards"
-                showUsername={false}
-                userId={user._id}
-              />
-            </div>
+            {user.cards.length > 0 ? (
+              <div className="card-stack-container">
+                <CardStack
+                  cards={user.cards}
+                  title="Your Cards"
+                  showUsername={false}
+                  userId={user._id}
+                />
+              </div>
+            ) : (
+              <div className="text-center mt-4">
+                <p>You don't have any cards yet.</p>
+                <p>Please create some cards to get started.</p>
+              </div>
+            )}
             {/* Render buttons for adding cards */}
             {!showCreateCardForm && !user.admin && (
               <button
