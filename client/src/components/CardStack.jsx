@@ -22,6 +22,7 @@ const CardStack = ({ cards = [], userId }) => {
     loading: loadingCards,
     data: cardsData,
     error: cardsError,
+    refetch: refetchCards,
   } = useQuery(QUERY_CARDS, {
     variables: { concept: urlConcept },
   });
@@ -29,9 +30,15 @@ const CardStack = ({ cards = [], userId }) => {
   const { loading: loadingFavorites, data: favoritesData } =
     useQuery(QUERY_FAVORITES);
 
-  const [addFavorite] = useMutation(ADD_FAVORITE);
-  const [removeFavorite] = useMutation(REMOVE_FAVORITE);
-  const [removeUserCard] = useMutation(REMOVE_USER_CARD);
+  const [addFavorite] = useMutation(ADD_FAVORITE, {
+    onCompleted: () => refetchCards(),
+  });
+  const [removeFavorite] = useMutation(REMOVE_FAVORITE, {
+    onCompleted: () => refetchCards(),
+  });
+  const [removeUserCard] = useMutation(REMOVE_USER_CARD, {
+    onCompleted: () => refetchCards(),
+  });
 
   // React card flip
   const [isFlipped, setIsFlipped] = useState(false);
@@ -264,21 +271,20 @@ const CardStack = ({ cards = [], userId }) => {
             </>
           )}
         </div>
-
+        {/* Update card */}
         {showUpdateForm && (
           <UpdateCardForm
-            cardToUpdate={cardToUpdate} // Pass the cardToUpdate state
+            cardToUpdate={cardToUpdate}
             onUpdate={(updatedCard) => {
-              // Implement update logic here
               console.log("Updated card:", updatedCard);
-              setShowUpdateForm(false); // Close the update form after updating
-              setCardToUpdate(null); // Reset cardToUpdate after updating
+              setShowUpdateForm(false);
+              setCardToUpdate(null);
             }}
             onCancel={() => {
-              setShowUpdateForm(false); // Close the update form on cancel
-              setCardToUpdate(null); // Reset cardToUpdate on cancel
+              setShowUpdateForm(false);
+              setCardToUpdate(null);
             }}
-            userId={userId} // Pass the user ID to the update form
+            userId={userId}
           />
         )}
       </div>
