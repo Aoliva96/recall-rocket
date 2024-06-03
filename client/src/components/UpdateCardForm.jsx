@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UPDATE_USER_CARD } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 
-const UpdateCardForm = ({ cardToUpdate, onUpdate, onCancel }) => {
+const UpdateCardForm = ({ cardToUpdate, onUpdate, onCancel, userId }) => {
   const [formState, setFormState] = useState({
     concept: cardToUpdate.concept || "",
     question: cardToUpdate.question || "",

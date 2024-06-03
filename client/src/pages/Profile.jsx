@@ -157,6 +157,7 @@ const Profile = () => {
                 cards={user.cards}
                 title="Your Cards"
                 showUsername={false}
+                userId={user._id}
               />
             </div>
             {/* Render buttons for adding cards */}

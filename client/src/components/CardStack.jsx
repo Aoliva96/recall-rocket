@@ -5,7 +5,7 @@ import { QUERY_CARDS, QUERY_FAVORITES } from "../utils/queries";
 import { ADD_FAVORITE, REMOVE_FAVORITE } from "../utils/mutations";
 import UpdateCardForm from "./UpdateCardForm";
 
-const CardStack = ({ cards = [] }) => {
+const CardStack = ({ cards = [], userId }) => {
   const { concept: urlConcept } = useParams(); // Get concept from URL params
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -130,7 +130,12 @@ const CardStack = ({ cards = [] }) => {
             >
               {isFavorite() ? "Remove from Favorites" : "Add to Favorites"}
             </button>
-            <button onClick={toggleUpdateForm}>Update Card</button>
+            <button
+              onClick={toggleUpdateForm}
+              disabled={!userId || userId !== card.createdBy._id}
+            >
+              Update Card
+            </button>
           </>
         )}
       </div>
@@ -148,6 +153,7 @@ const CardStack = ({ cards = [] }) => {
             setShowUpdateForm(false); // Close the update form on cancel
             setCardToUpdate(null); // Reset cardToUpdate on cancel
           }}
+          userId={userId} // Pass the user ID to the update form
         />
       )}
     </div>
