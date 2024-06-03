@@ -174,7 +174,7 @@ const CardStack = ({ cards = [], userId }) => {
                   </>
                 ) : (
                   <>
-                    <span>&#10004;</span>Add to Favorites<span>&#10004;</span>
+                    <span>&#10004;</span>Favorite
                   </>
                 )}
               </button>
