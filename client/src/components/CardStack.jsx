@@ -83,6 +83,7 @@ const CardStack = ({ cards = [], userId }) => {
 				variables: {
 					cardId: card._id,
 				},
+				refetchQueries: [QUERY_ME, "me", QUERY_FAVORITES, "getFavorites"],
 			});
 			setFavoriteId(data.addFavorite._id);
 		} catch (error) {
@@ -96,8 +97,10 @@ const CardStack = ({ cards = [], userId }) => {
 				variables: {
 					favoriteId: favoriteId, // Use the favoriteId state
 				},
+				refetchQueries: [QUERY_ME, "me", QUERY_FAVORITES, "getFavorites"],
 			});
 			setFavoriteId(null);
+			handleNext();
 		} catch (error) {
 			console.error("Error removing favorite:", error);
 		}
@@ -125,19 +128,21 @@ const CardStack = ({ cards = [], userId }) => {
 	};
 
 	// Format concept name for display
-	const capitalizedConcept =
-		card.concept.charAt(0).toUpperCase() + card.concept.slice(1);
-	let cardConcept;
-	if (capitalizedConcept === "Mongo") {
-		cardConcept = "MongoDB";
-	} else if (
-		capitalizedConcept === "Express" ||
-		capitalizedConcept === "Node" ||
-		capitalizedConcept === "React"
-	) {
-		cardConcept = `${capitalizedConcept}.js`;
-	} else {
-		cardConcept = capitalizedConcept;
+	let cardConcept = "Loading..."; // Default text while card is loading
+	if (card && card.concept) {
+		const capitalizedConcept =
+			card.concept.charAt(0).toUpperCase() + card.concept.slice(1);
+		if (capitalizedConcept === "Mongo") {
+			cardConcept = "MongoDB";
+		} else if (
+			capitalizedConcept === "Express" ||
+			capitalizedConcept === "Node" ||
+			capitalizedConcept === "React"
+		) {
+			cardConcept = `${capitalizedConcept}.js`;
+		} else {
+			cardConcept = capitalizedConcept;
+		}
 	}
 
 	return (
